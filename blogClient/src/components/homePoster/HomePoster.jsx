@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const HomePoster = () => {
   return (
     <div>
-      <div className="text-center mt-6 md:mt-20 ">
+      <div className="text-center pt-10 md:pt-20 bg-black text-white">
         <h2 className="font-bold text-2xl md:text-4xl">
           Welcome To Our Blogs{" "}
         </h2>{" "}

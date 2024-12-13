@@ -1,7 +1,17 @@
-import React from "react";
+import React, { useState,useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
+  const [year,setYear]=useState()
+
+  useEffect(() => {
+    let a=new Date()
+    setYear(a.getFullYear())
+    // console.log(a.getFullYear());
+  }, [])
+ 
+  
+  
   return (
     <div className="bg-black text-white py-8">
       <div className="container mx-auto px-6 md:px-12">
@@ -100,7 +110,8 @@ const Footer = () => {
         {/* Footer Bottom */}
         <div className="mt-8 border-t border-gray-700 pt-4 text-center">
           <p className="text-gray-400 text-sm">
-            &copy; 2024 Everyday Aura. All rights reserved.
+            Developed by Pratap Suryawanshi
+            &copy;{year} Everyday Aura. All rights reserved.
           </p>
         </div>
       </div>

@@ -6,7 +6,8 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <div className="bg-black text-white ">
+    <div>
+        <div className="bg-black text-white ">
       <div className="  container mx-auto flex items-center justify-between py-3">
         {/* Logo Section */}
         <div className="flex-shrink-0">
@@ -84,8 +85,12 @@ const Navbar = () => {
         </div>
       )}
 
-      <HomePoster />
+ 
     </div>
+           <HomePoster />
+    </div>
+
+  
   );
 };
 
