@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import HomePoster from '../homePoster/HomePoster';
+
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -35,9 +35,10 @@ const Navbar = () => {
 
         {/* Login Button */}
         <div className="hidden md:block">
-          <button className="bg-purple-600 px-4 py-2 border border-white rounded hover:bg-purple-800 transition">
+         <Link to='/login'>
+         <button className="bg-purple-600 px-4 py-2 border border-white rounded hover:bg-purple-800 transition">
             Login
-          </button>
+          </button></Link>
         </div>
 
         {/* Burger Button */}
@@ -78,16 +79,16 @@ const Navbar = () => {
             <Link to="/contact" className="block hover:text-purple-400">
               Contact
             </Link>
-            <button className="bg-purple-600 px-4 py-2 border border-white rounded hover:bg-purple-800 transition">
+           <Link to='/login'> <button className="bg-purple-600 px-4 py-2 border border-white rounded hover:bg-purple-800 transition">
               Login
-            </button>
+            </button></Link>
           </div>
         </div>
       )}
 
  
     </div>
-           <HomePoster />
+          
     </div>
 
   
