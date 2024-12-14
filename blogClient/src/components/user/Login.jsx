@@ -1,7 +1,9 @@
 import React from "react";
 import {Link} from 'react-router-dom';
+import Layout from '../outlet/Layout';
 const Login = () => {
   return (
+ 
     <div className="min-h-screen flex items-center justify-center  p-4">
       <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-sm">
         <h2 className="text-2xl font-bold text-center text-indigo-600 mb-4">
@@ -60,11 +62,15 @@ const Login = () => {
         </div>
 
         {/* Social Login Buttons */}
-        <button className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-300 mb-2">
-          Login with Facebook
+        <button className="flex justify-center w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-300 mb-2">
+        <span> <img   
+          className="h-6 px-3"
+          src="\src\assets\githublogo.webp" alt="" /> </span>    Login with Github
         </button>
-        <button className="w-full bg-gray-800 text-white py-2 rounded-lg hover:bg-gray-900 transition duration-300">
-          Login with Google
+        <button className="flex justify-center w-full bg-gray-800 text-white py-2 rounded-lg hover:bg-gray-900 transition duration-300">
+          <span> <img   
+          className="h-6"
+          src="\src\assets\Google-Symbol.png" alt="" /> </span>  Login with Google
         </button>
 
         {/* Footer */}
@@ -76,6 +82,7 @@ const Login = () => {
         </p>
       </div>
     </div>
+   
   );
 };
 

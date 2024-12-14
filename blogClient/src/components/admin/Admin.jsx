@@ -1,191 +1,207 @@
-import React, { useState } from 'react';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import 'react-tabs/style/react-tabs.css';
+import React, { useState } from "react";
+import { FaHome, FaUsers, FaCog, FaBars } from "react-icons/fa";
+import {
+  Chart as ChartJS,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { Bar } from "react-chartjs-2";
+
+// Register the components
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const Admin = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [activeTabIndex, setActiveTabIndex] = useState(0);  // State for active tab
+  const [activeTab, setActiveTab] = useState("Dashboard");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  // Sample Data for Stats, Posts, and Users
-  const stats = {
-    totalUsers: 120,
-    totalPosts: 35,
-    activeUsers: 75,
-  };
+  const renderContent = () => {
+    // Data for the bar chart
+    const barData = {
+      labels: ["January", "February", "March", "April", "May", "June"],
+      datasets: [
+        {
+          label: "Revenue",
+          data: [12000, 15000, 13000, 17000, 19000, 21000],
+          backgroundColor: "rgba(54, 162, 235, 0.2)",
+          borderColor: "rgba(54, 162, 235, 1)",
+          borderWidth: 1,
+        },
+      ],
+    };
 
-  const posts = [
-    { id: 1, title: 'How to use React', author: 'John Doe', date: '2024-12-10' },
-    { id: 2, title: 'Mastering Tailwind CSS', author: 'Jane Smith', date: '2024-12-05' },
-    { id: 3, title: 'Building Scalable Apps', author: 'Emily Davis', date: '2024-11-29' },
-  ];
+    // Data for the histogram
+    const histogramData = {
+      labels: [
+        "0-10",
+        "10-20",
+        "20-30",
+        "30-40",
+        "40-50",
+        "50-60",
+        "60-70",
+        "70-80",
+      ],
+      datasets: [
+        {
+          label: "Frequency",
+          data: [5, 12, 8, 15, 7, 10, 6, 9],
+          backgroundColor: "rgba(153, 102, 255, 0.5)",
+          borderColor: "rgba(153, 102, 255, 1)",
+          borderWidth: 1,
+        },
+      ],
+    };
 
-  const users = [
-    { id: 1, name: 'John Doe', email: 'johndoe@gmail.com', role: 'Admin', date: '2024-01-01' },
-    { id: 2, name: 'Jane Smith', email: 'janesmith@gmail.com', role: 'Editor', date: '2024-03-10' },
-    { id: 3, name: 'Emily Davis', email: 'emilydavis@gmail.com', role: 'Subscriber', date: '2024-07-15' },
-  ];
+    const options = {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: "top",
+        },
+        title: {
+          display: true,
+          text: "Chart",
+        },
+      },
+    };
 
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
+    switch (activeTab) {
+      case "Dashboard":
+        return (
+          <div>
+            <h1 className="text-3xl font-bold mb-4">Dashboard</h1>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="bg-white p-4 shadow rounded-lg">
+                <h2 className="text-xl font-semibold">
+                  Total Users(registered user)
+                </h2>
+                <p className="text-2xl mt-2">2</p>
+              </div>
+              <div className="bg-white p-4 shadow rounded-lg">
+                <h2 className="text-xl font-semibold">Total Blogs</h2>
+                <p className="text-2xl mt-2">$12,000</p>
+              </div>
+              <div className="bg-white p-4 shadow rounded-lg">
+                <h2 className="text-xl font-semibold">Total blog Likes</h2>
+                <p className="text-2xl mt-2">30</p>
+              </div>
+            </div>
 
-  // Function to handle clicking on the sidebar and setting the active tab
-  const handleSidebarClick = (index) => {
-    setActiveTabIndex(index);  // Set the active tab based on sidebar click
+            <div className="lg:flex ">
+              <div className="w-[400px] md: mx-auto mt-8">
+                <h2 className="text-xl font-bold mb-4">Bar Chart</h2>
+                <Bar data={barData} options={options} />
+              </div>
+
+              <div className="w-[400px] md:w- mx-auto mt-8">
+                <h2 className="text-xl font-bold mb-4">Histogram</h2>
+                <Bar data={histogramData} options={options} />
+              </div>
+            </div>
+          </div>
+        );
+      case "Users":
+        return (
+          <div>
+            <h1 className="text-3xl font-bold mb-4">Users</h1>
+            <table className="w-full bg-white shadow rounded-lg">
+              <thead>
+                <tr className="bg-gray-200">
+                  <th className="p-2">Name</th>
+                  <th className="p-2">Email</th>
+                  <th className="p-2">Role</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="p-2">John Doe</td>
+                  <td className="p-2">john@example.com</td>
+                  <td className="p-2">Admin</td>
+                </tr>
+                <tr>
+                  <td className="p-2">Jane Smith</td>
+                  <td className="p-2">jane@example.com</td>
+                  <td className="p-2">Editor</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        );
+      case "Settings":
+        return (
+          <div>
+            <h1 className="text-3xl font-bold mb-4">Settings</h1>
+            <p>Here you can manage your settings.</p>
+          </div>
+        );
+      default:
+        return null;
+    }
   };
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex min-h-screen">
       {/* Sidebar */}
       <div
-        className={`${
-          sidebarOpen ? 'w-64' : 'w-16'
-        } transition-width duration-300 bg-indigo-700 text-white p-4 space-y-6`}
+        className={`fixed top-0 left-0 h-screen bg-indigo-600 text-white p-4 z-10 transform transition-transform ${
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        } md:translate-x-0 md:static md:w-64`}
       >
-        <div className="flex justify-between items-center">
-          <span className={`text-2xl font-bold ${sidebarOpen ? 'inline' : 'hidden'}`}>Admin</span>
+        <h2 className="text-2xl font-bold mb-8">Admin Dashboard</h2>
+        <nav className="space-y-4">
           <button
-            onClick={toggleSidebar}
-            className="text-white text-xl focus:outline-none"
+            onClick={() => setActiveTab("Dashboard")}
+            className={`flex items-center space-x-2 p-2 rounded ${
+              activeTab === "Dashboard"
+                ? "bg-indigo-800"
+                : "hover:bg-indigo-700"
+            }`}
           >
-            {sidebarOpen ? '←' : '→'}
+            <FaHome />
+            <span>Dashboard</span>
           </button>
-        </div>
-        <nav className="mt-8 space-y-4">
-          <a
-            href="#"
-            className="block py-2 px-4 hover:bg-indigo-600 rounded"
-            onClick={() => handleSidebarClick(0)}  // Handle click for Dashboard
+          <button
+            onClick={() => setActiveTab("Users")}
+            className={`flex items-center space-x-2 p-2 rounded ${
+              activeTab === "Users" ? "bg-indigo-800" : "hover:bg-indigo-700"
+            }`}
           >
-            Dashboard
-          </a>
-          <a
-            href="#"
-            className="block py-2 px-4 hover:bg-indigo-600 rounded"
-            onClick={() => handleSidebarClick(1)}  // Handle click for Users
+            <FaUsers />
+            <span>Users</span>
+          </button>
+          <button
+            onClick={() => setActiveTab("Settings")}
+            className={`flex items-center space-x-2 p-2 rounded ${
+              activeTab === "Settings" ? "bg-indigo-800" : "hover:bg-indigo-700"
+            }`}
           >
-            Users
-          </a>
-          <a
-            href="#"
-            className="block py-2 px-4 hover:bg-indigo-600 rounded"
-            onClick={() => handleSidebarClick(2)}  // Handle click for Posts
-          >
-            Posts
-          </a>
-          <a href="#" className="block py-2 px-4 hover:bg-indigo-600 rounded">
-            Settings
-          </a>
+            <FaCog />
+            <span>Settings</span>
+          </button>
         </nav>
       </div>
 
+      {/* Burger Menu for Mobile */}
+      <button
+        className="absolute top-4 left-4 z-20 md:hidden text-indigo-600 bg-white p-2 rounded-full shadow"
+        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+      >
+        <FaBars size={20} />
+      </button>
+
       {/* Main Content */}
-      <div className="flex-1 p-6">
-        {/* Top Bar */}
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-semibold text-gray-800">Admin Dashboard</h1>
-          <div className="space-x-4">
-            <button className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500">
-              Log Out
-            </button>
-          </div>
-        </div>
-
-        {/* Stats Section */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-          <div className="bg-white p-6 rounded-lg shadow-lg">
-            <h3 className="text-lg font-semibold text-gray-700">Total Users</h3>
-            <p className="text-3xl font-bold text-indigo-600">{stats.totalUsers}</p>
-          </div>
-          <div className="bg-white p-6 rounded-lg shadow-lg">
-            <h3 className="text-lg font-semibold text-gray-700">Total Posts</h3>
-            <p className="text-3xl font-bold text-indigo-600">{stats.totalPosts}</p>
-          </div>
-          <div className="bg-white p-6 rounded-lg shadow-lg">
-            <h3 className="text-lg font-semibold text-gray-700">Active Users</h3>
-            <p className="text-3xl font-bold text-indigo-600">{stats.activeUsers}</p>
-          </div>
-        </div>
-
-        {/* Tabs for Users and Posts */}
-        <Tabs selectedIndex={activeTabIndex} onSelect={setActiveTabIndex}>
-          <TabList className="flex space-x-4 mb-6">
-            <Tab className="py-2 px-4 cursor-pointer text-lg font-semibold text-gray-700 hover:bg-indigo-600 rounded-lg">Users</Tab>
-            <Tab className="py-2 px-4 cursor-pointer text-lg font-semibold text-gray-700 hover:bg-indigo-600 rounded-lg">Posts</Tab>
-          </TabList>
-
-          <TabPanel>
-            {/* Users Table */}
-            <div className="bg-white p-6 rounded-lg shadow-lg">
-              <h2 className="text-2xl font-semibold text-gray-700 mb-4">Users List</h2>
-              <table className="min-w-full table-auto">
-                <thead>
-                  <tr>
-                    <th className="py-2 px-4 text-left text-sm font-medium text-gray-600">Name</th>
-                    <th className="py-2 px-4 text-left text-sm font-medium text-gray-600">Email</th>
-                    <th className="py-2 px-4 text-left text-sm font-medium text-gray-600">Role</th>
-                    <th className="py-2 px-4 text-left text-sm font-medium text-gray-600">Joined</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {users.map((user) => (
-                    <tr key={user.id}>
-                      <td className="py-2 px-4 border-b">{user.name}</td>
-                      <td className="py-2 px-4 border-b">{user.email}</td>
-                      <td className="py-2 px-4 border-b">{user.role}</td>
-                      <td className="py-2 px-4 border-b">{user.date}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </TabPanel>
-
-          <TabPanel>
-            {/* Post Form */}
-            <div className="bg-white p-6 rounded-lg shadow-lg">
-              <h2 className="text-2xl font-semibold text-gray-700 mb-4">Create Post</h2>
-              <form>
-                <div className="mb-4">
-                  <label className="block text-gray-700">Blog Title</label>
-                  <input
-                    type="text"
-                    className="mt-2 w-full px-4 py-2 border rounded-lg"
-                    placeholder="Enter blog title"
-                  />
-                </div>
-                <div className="mb-4">
-                  <label className="block text-gray-700">Blog Subtitle</label>
-                  <input
-                    type="text"
-                    className="mt-2 w-full px-4 py-2 border rounded-lg"
-                    placeholder="Enter blog subtitle"
-                  />
-                </div>
-                <div className="mb-4">
-                  <label className="block text-gray-700">Headline</label>
-                  <input
-                    type="text"
-                    className="mt-2 w-full px-4 py-2 border rounded-lg"
-                    placeholder="Enter headline"
-                  />
-                </div>
-                <div className="mb-4">
-                  <label className="block text-gray-700">Blog Content</label>
-                  <textarea
-                    className="mt-2 w-full px-4 py-2 border rounded-lg"
-                    placeholder="Enter blog content"
-                    rows="5"
-                  />
-                </div>
-                <button type="submit" className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500">
-                  Publish Post
-                </button>
-              </form>
-            </div>
-          </TabPanel>
-        </Tabs>
-      </div>
+      <div className="flex-1 p-6">{renderContent()}</div>
     </div>
   );
 };

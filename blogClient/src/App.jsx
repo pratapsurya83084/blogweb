@@ -5,6 +5,7 @@ import Login from './components/user/Login';
 import Register from './components/user/Register';
 import Contact from './components/Contact';
 import Admin from './components/admin/Admin';
+import SinglePageBlog  from './components/blogSection/SinglePageBlog';
 // import About from './components/';
 const App = () => {
   return (
@@ -13,7 +14,7 @@ const App = () => {
         <Route path="/" element={<Home />} />
         {/* <Route path="/about" element={<About />} /> */}
         <Route path="/blog" element={<Allblogs />} />
-     <Route  path='/singlepage:id' element={<Allblogs/>} />
+     <Route  path='/singlepage/:id' element={<SinglePageBlog/>} />
      <Route path='/login' element={<Login/>}/>
      <Route path='/register' element={<Register/>}/>
      <Route path='/contact' element={<Contact/>}/>

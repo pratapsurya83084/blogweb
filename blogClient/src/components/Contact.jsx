@@ -1,8 +1,10 @@
 import React from "react";
-
+import Layout from '../components/outlet/Layout'
 const Contact = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 flex items-center justify-center py-12 px-6">
+    <Layout>
+
+<div className="min-h-screen  flex items-center justify-center py-12 p-2">
       <div className="bg-white shadow-2xl rounded-lg p-10 w-full max-w-5xl">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Left Side - Contact Information */}
@@ -20,13 +22,13 @@ const Contact = () => {
                 Contact Details
               </h3>
               <p className="text-gray-700">
-                <strong>Address:</strong> 456 Innovation Drive, Tech City, World
+                <strong>Address:</strong> 456 karjat , Tech City, World
               </p>
               <p className="text-gray-700">
-                <strong>Email:</strong> info@ourcompany.com
+                <strong>Email:</strong> suryawanshipratap40@gmail.com
               </p>
               <p className="text-gray-700">
-                <strong>Phone:</strong> +123 456 7890
+                <strong>Phone:</strong> +91 8308459145
               </p>
             </div>
 
@@ -64,7 +66,7 @@ const Contact = () => {
           </div>
 
           {/* Right Side - Contact Form */}
-          <form className="bg-purple-50 p-8 rounded-lg shadow-lg space-y-6">
+          <form className="bg-purple-50 p-2 md:p-8 rounded-lg shadow-lg space-y-6">
             <h3 className="text-2xl font-semibold text-purple-600 text-center mb-4">
               Send Us a Message
             </h3>
@@ -124,6 +126,8 @@ const Contact = () => {
         </div>
       </div>
     </div>
+    </Layout>
+   
   );
 };
 

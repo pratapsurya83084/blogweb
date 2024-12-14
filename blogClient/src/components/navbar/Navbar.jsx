@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
+  
     <div>
         <div className="bg-black text-white ">
       <div className="  container mx-auto flex items-center justify-between py-3">
@@ -31,12 +31,16 @@ const Navbar = () => {
           <Link to="/contact" className="hover:text-purple-400">
             Contact
           </Link>
+
+          <Link to="/admin" className="block hover:text-purple-400">
+              Admin
+            </Link>
         </div>
 
         {/* Login Button */}
         <div className="hidden md:block">
          <Link to='/login'>
-         <button className="bg-purple-600 px-4 py-2 border border-white rounded hover:bg-purple-800 transition">
+         <button className="bg-indigo-700 px-4 py-2 border border-white rounded hover:bg-indigo-800 transition">
             Login
           </button></Link>
         </div>
@@ -79,9 +83,14 @@ const Navbar = () => {
             <Link to="/contact" className="block hover:text-purple-400">
               Contact
             </Link>
-           <Link to='/login'> <button className="bg-purple-600 px-4 py-2 border border-white rounded hover:bg-purple-800 transition">
+
+            <Link to="/admin" className="block hover:text-purple-400">
+              Admin
+            </Link>
+           <Link to='/login'> <button className="bg-indigo-600 px-4 py-2 border mt-3 border-white rounded hover:bg-indigo-700 transition">
               Login
             </button></Link>
+
           </div>
         </div>
       )}
@@ -91,7 +100,6 @@ const Navbar = () => {
           
     </div>
 
-  
   );
 };
 
