@@ -21,6 +21,15 @@ const blogData = [
     desc: " Achieve the perfect harmony between career and personal life with tips Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet?",
   },
   {
+    category: "technology",
+    id: 2,
+    title: "In 2025 Top 10 most valuable technology",
+    author: "John Doe",
+    date: "2024-05-25",
+    url: "https://imageio.forbes.com/specials-images/imageserve/646b09c56ffa41bec1a2e237/0x0.jpg?format=jpg&height=900&width=1600&fit=bounds",
+    desc: " Achieve the perfect harmony between career and personal life with tips Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet?",
+  },
+  {
     category: "shopping",
     id: 3,
     title: "Top 10 Gadgets 2024",
@@ -153,12 +162,15 @@ const BlogHome = () => {
               >
                 Popular
               </li>
-              <li
+            
+              {/* <li
                 className="text-xs md:text-sm cursor-pointer px-2 md:p-2"
                 onClick={() => categoryBlog("saved")}
               >
                 Saved
-              </li>
+              </li> */}
+            
+            
               <li
                 className="text-xs md:text-sm cursor-pointer px-2 md:p-2"
                 onClick={() => categoryBlog("lifestyle")}

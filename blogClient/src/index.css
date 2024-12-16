@@ -7,3 +7,42 @@ body{
     user-select: none;
     background-color: rgb(186, 180, 180);
 }
+
+
+/* home loader / route css */
+/* Animation for wave-like effect */
+@keyframes wave {
+    0%, 60%, 100% {
+      transform: translateY(0); /* Default position */
+    }
+    30% {
+      transform: translateY(-10px); /* Move up */
+    }
+  }
+  
+  /* Apply wave animation to the dots */
+ /* Animation for up and down motion */
+
+@keyframes upDown {
+    0%, 100% {
+      transform: translateY(0); /* Default position */
+    }
+    50% {
+      transform: translateY(-10px); /* Move up */
+    }
+  }
+  
+  /* Apply up-down animation to the dots */
+  .dot {
+    animation: upDown 1s infinite ease-in-out;
+  }
+  
+  /* Custom delay for sequential up-down motion */
+  .animation-delay-200 {
+    animation-delay: 0.2s;
+  }
+  
+  .animation-delay-400 {
+    animation-delay: 0.4s;
+  }
+  

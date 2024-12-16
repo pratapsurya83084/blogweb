@@ -113,7 +113,7 @@ const Allblogs = () => {
   {(searchTerm ? filteredBlogs : blogData).map((blog) => (
     <div
       key={blog.id}
-      className="bg-white flex flex-col items-start gap-4 p-4 rounded-lg shadow-lg"
+      className="bg-white flex flex-col items-start gap-4 p-4 rounded-lg shadow-lg  group transform transition duration-300 ease-in-out hover:-translate-y-3"
     >
       {/* Image */}
       <div className="img w-full h-[200px] flex justify-center items-center">
