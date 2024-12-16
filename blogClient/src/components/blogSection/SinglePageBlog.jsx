@@ -131,7 +131,7 @@ const SinglePageBlog = () => {
     <div>
       <div className="relative w-full">
         <img
-          src="/src/assets/blogshopping.png"
+          src="\blogshopping.png"
           alt="poster image"
           className="w-full h-auto max-h-[700px] object-cover"
         />

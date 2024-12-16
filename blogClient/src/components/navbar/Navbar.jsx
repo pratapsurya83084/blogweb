@@ -14,7 +14,7 @@ const Navbar = () => {
           <Link to="/">
             <img
               className="h-20 p-2"
-              src="\src\assets\Screenshot_2024-12-12_160626-removebg-preview.png"
+              src="\Screenshot_2024-12-12_160626-removebg-preview.png"
               alt="Logo"
             />
           </Link>

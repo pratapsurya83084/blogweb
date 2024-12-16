@@ -65,12 +65,12 @@ const Login = () => {
         <button className="flex justify-center w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-300 mb-2">
         <span> <img   
           className="h-6 px-3"
-          src="\src\assets\githublogo.webp" alt="" /> </span>    Login with Github
+          src="\githublogo.webp" alt="" /> </span>    Login with Github
         </button>
         <button className="flex justify-center w-full bg-gray-800 text-white py-2 rounded-lg hover:bg-gray-900 transition duration-300">
           <span> <img   
           className="h-6"
-          src="\src\assets\Google-Symbol.png" alt="" /> </span>  Login with Google
+          src="\Google-Symbol.png" alt="" /> </span>  Login with Google
         </button>
 
         {/* Footer */}

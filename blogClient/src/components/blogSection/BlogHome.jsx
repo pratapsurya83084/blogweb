@@ -138,10 +138,10 @@ const BlogHome = () => {
         {/* Left Column */}
         <div className=" hidden md:block w-[150px] h-[330px] bg-white rounded">
           <ul className="">
-            <Link to={"/about"}>
+            {/* <Link to={"/about"}> */}
               {" "}
               <li className="p-2 ">About Us</li>{" "}
-            </Link>
+            {/* </Link> */}
             <li className="p-2 ">Advertise with us</li>
             <li className="p-2 ">Safety Tips</li>
             <li className="p-2 ">FAQs</li>
