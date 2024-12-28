@@ -17,7 +17,7 @@ const blogData = [
     title: "How to Achieve Work-Life Balance in a Remote Work Era",
     author: "John Doe",
     date: "2024-05-25",
-    url: "https://imageio.forbes.com/specials-images/imageserve/646b09c56ffa41bec1a2e237/0x0.jpg?format=jpg&height=900&width=1600&fit=bounds",
+    url: "https://img.freepik.com/free-photo/fake-news-works-coming-out-megaphone_23-2149261953.jpg?t=st=1735394083~exp=1735397683~hmac=04c229725222f40cea20b465dc1b565e397003cd46073dac89dc928f93cc8760&w=740",
     desc: " Achieve the perfect harmony between career and personal life with tips Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet?",
   },
   {
@@ -26,7 +26,7 @@ const blogData = [
     title: "In 2025 Top 10 most valuable technology",
     author: "John Doe",
     date: "2024-05-25",
-    url: "https://imageio.forbes.com/specials-images/imageserve/646b09c56ffa41bec1a2e237/0x0.jpg?format=jpg&height=900&width=1600&fit=bounds",
+    url: "https://img.freepik.com/free-photo/ai-nuclear-energy-future-innovation-disruptive-technology_53876-129784.jpg?t=st=1735393834~exp=1735397434~hmac=5db1f94c518fe7f444626aa84f8d3e87409dc9036e26b21b8bf9d4eb16bfa82f&w=360",
     desc: " Achieve the perfect harmony between career and personal life with tips Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet?",
   },
   {
@@ -35,17 +35,16 @@ const blogData = [
     title: "Top 10 Gadgets 2024",
     author: "Emily Johnson",
     date: "2024-05-28",
-    url: "https://img.freepik.com/premium-photo/free-shipping-day-deals_1198081-25241.jpg?w=996",
+    url: "https://img.freepik.com/free-photo/pair-man-woman-wearing-glasses-carried-lots-paper-bags-shopping_1150-27742.jpg?t=st=1735394179~exp=1735397779~hmac=7c20b39f84f4a4f50b16f2d4f30dada42498bb67bd7b8d972f0044f9d86bb644&w=360",
     desc: "Stay updated with the latest trends, must-have products, and shopping tips to elevate your style and lifestyle Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? ",
   },
-
   {
     category: "health",
     id: 4,
     title: "nature",
     author: "Michael Brown",
     date: "2024-05-26",
-    url: "https://img.freepik.com/free-photo/nutrition-healthy-diet-plan-concept_53876-125014.jpg?t=st=1734108211~exp=1734111811~hmac=394a3a8d5538eb09681a74bd5a31c3294de1068a569ef704be2957cecba551ed&w=996",
+    url: "https://img.freepik.com/free-photo/beautiful-strawberry-garden-sunrise-doi-ang-khang-chiang-mai-thailand_335224-762.jpg?t=st=1735394207~exp=1735397807~hmac=1139b06d8cbb62d2c0650e5c4eaa4e35fb81634d73f1d93cd961e803c8d39abe&w=1060",
     desc: "Explore the power of natural remedies and holistic practices to nurture your body, mind, and soul for optimal health Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorum, similique distinctio mollitia eum quidem dolorem fugit exercitationem velit. Animi consectetur ipsum explicabo voluptatem quo commodi possimus necessitatibus praesentium voluptate eveniet?. ",
   },
   {
@@ -280,19 +279,21 @@ const BlogHome = () => {
 
                   {/* Right Image */}
                   
-                  <div className="md:w-1/3">
-                  <Link to={`/singlepage/${blog.id}`}> 
-                    <img
-                      src={blog.url}
-                      alt={blog.title}
-                      className="w-[500px] h-40  sm:w-[500px] object-cover p-2"
-                    />
-                    </Link>
-                  </div>
+                  <div className=" md:w-1/3 flex justify-end ">
+  <Link to={`/singlepage/${blog.id}`}> 
+    <img
+      src={blog.url}
+      alt={blog.title}
+      className="w-[500px] h-[200px] sm:w-[500px] sm:h-[200px] object-cover p-2"
+    />
+  </Link>
+</div>
+
                   
                 </div>
               ))}
           </div>
+          
         </div>
 
         {/* Right Column */}
