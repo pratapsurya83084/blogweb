@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { FaHome, FaUsers, FaCog, FaBars ,FaPlus ,FaBlog} from "react-icons/fa";
+import { FaHome, FaUsers, FaCog, FaBars, FaPlus, FaBlog } from "react-icons/fa";
 import Dashboard from "./Dashboard";
 import Users from './Users'
 import AllBlogs from "./AllBlogs";
 import AddBlogs from "./AddBlogs";
+
 const Admin = () => {
   const [activeTab, setActiveTab] = useState("Dashboard");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -16,13 +17,9 @@ const Admin = () => {
   const renderContent = () => {
     switch (activeTab) {
       case "Dashboard":
-        return (
-        <Dashboard/>
-        );
+        return <Dashboard />;
       case "Users":
-        return (
-       <Users/>
-        );
+        return <Users />;
       case "Settings":
         return (
           <div className="md:ml-64">
@@ -30,18 +27,10 @@ const Admin = () => {
             <p>Here you can manage your settings.</p>
           </div>
         );
-        case "Blogs":
-          return(
-<AllBlogs/>
-
-          );
-
-
-          case "AddBlogs":
-            return(
-  <AddBlogs/>
-  
-            );
+      case "Blogs":
+        return <AllBlogs />;
+      case "AddBlogs":
+        return <AddBlogs />;
       default:
         return null;
     }
@@ -55,7 +44,7 @@ const Admin = () => {
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         } md:translate-x-0 md:w-64 md:h-full`}
       >
-        <h2 className="text-2xl font-bold mb-8">Admin Dashboard</h2>
+        <h2 className="text-2xl font-bold mb-8 ml-10 md:ml-0">Admin Dashboard</h2>
         <nav className="space-y-4">
           <button
             onClick={() => setActiveTab("Dashboard")}
@@ -75,7 +64,7 @@ const Admin = () => {
             <FaUsers />
             <span>Users</span>
           </button>
-          <button
+          {/* <button
             onClick={() => setActiveTab("Settings")}
             className={`flex items-center space-x-2 p-2 rounded ${
               activeTab === "Settings" ? "bg-indigo-800" : "hover:bg-indigo-700"
@@ -83,29 +72,27 @@ const Admin = () => {
           >
             <FaCog />
             <span>Settings</span>
+          </button> */}
+
+          {/* Add the new buttons */}
+          <button
+            onClick={() => setActiveTab("Blogs")}
+            className={`flex items-center space-x-2 p-2 rounded ${
+              activeTab === "Blogs" ? "bg-indigo-800" : "hover:bg-indigo-700"
+            }`}
+          >
+            <FaBlog />
+            <span>Blogs</span>
           </button>
-
-  {/* Add the new buttons */}
-  <button
-    onClick={() => setActiveTab("Blogs")}
-    className={`flex items-center space-x-2 p-2 rounded ${
-      activeTab === "Blogs" ? "bg-indigo-800" : "hover:bg-indigo-700"
-    }`}
-  >
-    <FaBlog />
-    <span>Blogs</span>
-  </button>
-  <button
-    onClick={() => setActiveTab("AddBlogs")}
-    className={`flex items-center space-x-2 p-2 rounded ${
-      activeTab === "Add Blog" ? "bg-indigo-800" : "hover:bg-indigo-700"
-    }`}
-  >
-    <FaPlus />
-    <span>Add Blog</span>
-  </button>
-
-
+          <button
+            onClick={() => setActiveTab("AddBlogs")}
+            className={`flex items-center space-x-2 p-2 rounded ${
+              activeTab === "AddBlogs" ? "bg-indigo-800" : "hover:bg-indigo-700"
+            }`}
+          >
+            <FaPlus />
+            <span>Add Blog</span>
+          </button>
         </nav>
       </div>
 
@@ -117,8 +104,10 @@ const Admin = () => {
         <FaBars size={20} />
       </button>
 
-      {/* Main Content */}
-      <div className="flex-1 p-6">{renderContent()}</div>
+      {/* Main Content with Overflow Scroll */}
+      <div className="flex-1 p-4 overflow-x-auto">
+        {renderContent()}
+      </div>
     </div>
   );
 };

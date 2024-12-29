@@ -1,9 +1,40 @@
-import React from "react";
-import {Link} from 'react-router-dom';
-import Layout from '../outlet/Layout';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
 const Login = () => {
+  const [email, setemail] = useState("");
+  const [password, setpassword] = useState("");
+
+  const data={
+    email: "admin@localhost",
+    password: "123456",
+  }
+
+  const handelSubmitForm = (e) => {
+    e.preventDefault();
+    // console.log("user cradential is : ", email, password);
+  };
+
+  const submitLogin = async () => {
+    try {
+      //fetch api
+      const api = await axios.post(
+        "http://localhost/blogweb/backendserver/login.php",
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(api.data);
+      
+    } catch (error) {
+      console.log("something  went wrong :", error);
+    }
+  };
+
   return (
- 
     <div className="min-h-screen flex items-center justify-center  p-4">
       <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-sm">
         <h2 className="text-2xl font-bold text-center text-indigo-600 mb-4">
@@ -12,7 +43,7 @@ const Login = () => {
         <p className="text-sm text-gray-500 text-center mb-6">
           Please login to your account.
         </p>
-        <form>
+        <form onSubmit={handelSubmitForm}>
           {/* Email Field */}
           <div className="mb-4">
             <label
@@ -24,6 +55,9 @@ const Login = () => {
             <input
               type="email"
               id="email"
+              name="email"
+              value={email}
+              onChange={(e) => setemail(e.target.value)}
               placeholder="Enter your email"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
             />
@@ -40,6 +74,9 @@ const Login = () => {
             <input
               type="password"
               id="password"
+              name="password"
+              value={password}
+              onChange={(e) => setpassword(e.target.value)}
               placeholder="Enter your password"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
             />
@@ -47,7 +84,7 @@ const Login = () => {
 
           {/* Submit Button */}
           <button
-            type="submit"
+            onClick={submitLogin}
             className="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition duration-300"
           >
             Login
@@ -63,26 +100,29 @@ const Login = () => {
 
         {/* Social Login Buttons */}
         <button className="flex justify-center w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-300 mb-2">
-        <span> <img   
-          className="h-6 px-3"
-          src="\githublogo.webp" alt="" /> </span>    Login with Github
+          <span>
+            {" "}
+            <img className="h-6 px-3" src="\githublogo.webp" alt="" />{" "}
+          </span>{" "}
+          Login with Github
         </button>
         <button className="flex justify-center w-full bg-gray-800 text-white py-2 rounded-lg hover:bg-gray-900 transition duration-300">
-          <span> <img   
-          className="h-6"
-          src="\Google-Symbol.png" alt="" /> </span>  Login with Google
+          <span>
+            {" "}
+            <img className="h-6" src="\Google-Symbol.png" alt="" />{" "}
+          </span>{" "}
+          Login with Google
         </button>
 
         {/* Footer */}
         <p className="text-center text-sm text-gray-500 mt-6">
           Don't have an account?{" "}
-        <Link to='/register'  className="text-indigo-600 hover:underline">
+          <Link to="/register" className="text-indigo-600 hover:underline">
             Sign Up
           </Link>
         </p>
       </div>
     </div>
-   
   );
 };
 

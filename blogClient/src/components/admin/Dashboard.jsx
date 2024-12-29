@@ -66,14 +66,16 @@ const Dashboard = () => {
     <div>
         <div className="md:ml-64">
             <h1 className="text-3xl font-bold mb-4 mt-10 md:mt-0">Dashboard</h1>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-white p-4 shadow rounded-lg">
+           
+           
+            <div className="w-auto grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className=" bg-white p-4 shadow rounded-lg">
                 <h2 className="text-xl font-semibold">Total Users (registered user)</h2>
                 <p className="text-2xl mt-2">2</p>
               </div>
               <div className="bg-white p-4 shadow rounded-lg">
                 <h2 className="text-xl font-semibold">Total Blogs</h2>
-                <p className="text-2xl mt-2">$12,000</p>
+                <p className="text-2xl mt-2">10</p>
               </div>
               <div className="bg-white p-4 shadow rounded-lg">
                 <h2 className="text-xl font-semibold">Total blog Likes</h2>
@@ -81,13 +83,13 @@ const Dashboard = () => {
               </div>
             </div>
 
-            <div className="xl:flex mt-8 bg-white p-3 rounded-xl">
-              <div className="w-[400px] mx-auto p-4 bg-white shadow-xl rounded-xl">
+            <div className="w-auto lg:flex mt-8  bg-white p- rounded-xl">
+              <div className="w-[260px]  xl:w-[400px] mx-auto p- bg-white shadow-xl rounded-xl">
                 <h2 className="text-xl font-bold mb-4">Bar Chart</h2>
-                <Bar data={barData} options={options} />
+                <Bar data={barData} options={options}/>
               </div>
 
-              <div className="w-[400px] mx-auto mt-8 p-4 shadow-xl  bg-white rounded-xl">
+              <div className="w-[260px] xl:w-[400px] mx-auto mt-8 p- shadow-xl  bg-white rounded-xl">
                 <h2 className="text-xl font-bold m">Histogram</h2>
                 <Bar data={histogramData} options={options} />
               </div>

@@ -1,101 +1,112 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
+import {useNavigate}  from 'react-router-dom';
 import {Link} from 'react-router-dom';
-const Register = () => {
+import Swal from 'sweetalert2';
+const Register= () => {
+  const navigate = useNavigate();
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState();
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Prepare the data to send to the backend
+    const userData = {
+      username: username,
+      email: email,
+      password: password,
+    };
+
+  
+      // Send a POST request to the backend
+      const response = await axios.post(
+        "http://localhost/blogweb/backendserver/registeruser.php", // URL to your backend
+        userData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+console.log(response.data);
+
+if (response.data.success==true) {
+  Swal.fire({
+    title: 'Success!',
+    text: 'User registered successfully',
+    icon: 'success',
+    confirmButtonText: 'OK',
+  });
+  navigate('/login')
+} else {
+  Swal.fire({
+    title: 'error!',
+    text: 'failed registered ',
+    icon: 'error',
+    confirmButtonText: 'OK',
+  });
+  // alert(response.data.message); // For any error or other message from the backend
+  setMessage("User already Exists !");
+}
+    
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center  p-6">
-      <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-lg">
-        <h2 className="text-2xl font-bold text-center text-indigo-600 mb-4">
-          Create Your Account
-        </h2>
-        <p className="text-sm text-gray-500 text-center mb-6">
-          Join us and explore amazing content.
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+    <div className="bg-white p-8 rounded-lg shadow-lg max-w-sm w-full">
+      <h2 className="text-3xl font-semibold text-center text-indigo-600 mb-6">Register</h2>
+      <form onSubmit={handleSubmit}>
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">Username</label>
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+            className="w-full p-3 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">Email</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className="w-full p-3 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+        </div>
+
+        <div className="mb-6">
+          <label className="block text-sm font-medium text-gray-700">Password</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            className="w-full p-3 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+        </div>
+
+        <button
+          type="submit"
+          className="w-full py-3 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        >
+          Register
+        </button>
+        <p className="mt-6 text-center text-gray-500">
+          Already have an account? <Link to="/login">Login</Link>
         </p>
-        <form>
-          {/* Full Name */}
-          <div className="mb-4">
-            <label
-              htmlFor="fullName"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Full Name
-            </label>
-            <input
-              type="text"
-              id="fullName"
-              placeholder="Enter your full name"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
-            />
-          </div>
+      </form>
 
-          {/* Email */}
-          <div className="mb-4">
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              placeholder="Enter your email"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
-            />
-          </div>
-
-          {/* Password */}
-          <div className="mb-4">
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              placeholder="Create a password"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
-            />
-          </div>
-
-          {/* Confirm Password */}
-          <div className="mb-6">
-            <label
-              htmlFor="confirmPassword"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Confirm Password
-            </label>
-            <input
-              type="password"
-              id="confirmPassword"
-              placeholder="Confirm your password"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
-            />
-          </div>
-
-          {/* Submit Button */}
-          <button
-            type="submit"
-            className="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 focus:ring-2 focus:ring-green-500 focus:outline-none transition duration-300"
-          >
-            Register
-          </button>
-        </form>
-
-        {/* Divider */}
-      
-
-        {/* Footer */}
-        <p className="text-center text-sm text-gray-500 mt-6">
-          Already have an account?{" "}
-          <Link to='/login' className="text-indigo-600 hover:underline">
-            Log in
-          </Link>
-        </p>
-      </div>
+      {message && <p className="mt-4 text-center text-red-500">{message}</p>}
     </div>
+  </div>
   );
 };
 
