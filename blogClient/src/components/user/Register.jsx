@@ -19,17 +19,21 @@ const Register= () => {
       username: username,
       email: email,
       password: password,
+     
     };
 
   
       // Send a POST request to the backend
       const response = await axios.post(
-        "http://localhost/blogweb/backendserver/registeruser.php", // URL to your backend
+        "http://localhost/blogweb/backend/register.php", // URL to your backend
+      
         userData,
         {
           headers: {
             "Content-Type": "application/json",
+            // "Accept": "application/json", 
           },
+         
         }
       );
 console.log(response.data);
@@ -45,7 +49,7 @@ if (response.data.success==true) {
 } else {
   Swal.fire({
     title: 'error!',
-    text: 'failed registered ',
+    text: 'User Already registered ',
     icon: 'error',
     confirmButtonText: 'OK',
   });
@@ -59,7 +63,7 @@ if (response.data.success==true) {
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
     <div className="bg-white p-8 rounded-lg shadow-lg max-w-sm w-full">
       <h2 className="text-3xl font-semibold text-center text-indigo-600 mb-6">Register</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} method="POST">
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700">Username</label>
           <input

@@ -131,12 +131,12 @@ const SinglePageBlog = () => {
     <div>
       <div className="relative w-full">
         <img
-          src="\blogshopping.png"
+          src="https://img.freepik.com/free-photo/online-message-blog-chat-communication-envelop-graphic-icon-concept_53876-127416.jpg?t=st=1735503894~exp=1735507494~hmac=3b95acf94c4dfb89f33a94c95ef5363e1e83b3f91228cd437e7a6001efcf07c3&w=1060"
           alt="poster image"
           className="w-full h-auto max-h-[700px] object-cover"
         />
         <div className="absolute inset-0 text-black flex flex-col p-2 text-center justify-center items-center">
-          <h1 className="text-xl  md:text-4xl font-bold mb-2 ">
+          <h1 className="text-2xl sm:text-5xl  md:text-5xl  font-bold mb-2 ">
             {" "}
             {blogPost.category} : {blogPost.title}
           </h1>

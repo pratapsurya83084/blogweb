@@ -127,7 +127,7 @@ const BlogHome = () => {
   //only popular  categories
   const popularBlogs = blogData.filter(blog => blog.category === 'popular');
 
-  console.log(popularBlogs);
+  // console.log(popularBlogs);
   
  
 

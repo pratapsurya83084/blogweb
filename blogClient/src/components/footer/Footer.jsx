@@ -43,11 +43,11 @@ const Footer = () => {
                   Contact
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link to="/privacy-policy" className="text-gray-400 hover:text-purple-500">
                   Privacy Policy
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </div>
 
@@ -110,7 +110,7 @@ const Footer = () => {
         {/* Footer Bottom */}
         <div className="mt-8 border-t border-gray-700 pt-4 text-center">
           <p className="text-gray-400 text-sm">
-            Developed by Pratap Suryawanshi
+            Developed by Pratap Suryawanshi & Nimbalkar dhananjay
             &copy;{year} Everyday Aura. All rights reserved.
           </p>
         </div>

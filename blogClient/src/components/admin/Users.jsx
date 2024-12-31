@@ -12,7 +12,7 @@ const users = [
   },
 ];
 const Users = () => {
-const [searchTerm,SetSearchTerm]=useState(" ")
+const [searchTerm,SetSearchTerm]=useState("")
   // console.log(searchTerm);
   
 const filterdUser=users.filter((arr)=>
