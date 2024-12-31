@@ -19,7 +19,7 @@ const Login = () => {
     try {
       //fetch api
       const api = await axios.post(
-        "http://localhost/blogweb/backendserver/login.php",
+        "http://localhost/blogweb/backend/login.php",
         data,
         {
           headers: {
@@ -32,6 +32,20 @@ const Login = () => {
         alert("Invalid credentials");
       }else{
         alert("Successfully logged in");
+
+        //hold user
+//         localStorage.setItem('user_id', userId);
+// localStorage.setItem('username', username);
+
+
+        // Access session cookie in JavaScript
+const sessionId = document.cookie
+.split('; ')
+.find(row => row.startsWith('PHPSESSID='))
+?.split('=')[1];
+
+console.log(sessionId);  // Logs the PHP session ID
+
       }
       
     } catch (error) {

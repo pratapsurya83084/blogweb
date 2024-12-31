@@ -43,7 +43,7 @@ if (mysqli_num_rows($result) > 0) {
             // Send a success response if user was registered successfully
             $response = array(
                 "message" => "User registered successfully",
-                "code" => 201,
+                "code" => 200,
                 "success" => true,
                 "user" => $username
             );
