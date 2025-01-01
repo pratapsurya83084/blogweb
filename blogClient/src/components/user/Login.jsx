@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import Swal from 'sweetalert2';
+import { useNavigate } from "react-router-dom";
 const Login = () => {
+  const navigate=useNavigate();
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
 
@@ -27,24 +30,29 @@ const Login = () => {
           },
         }
       );
-      console.log(api.data);
+      // console.log(api.data.session_id);
       if (api.data.success==false) {
-        alert("Invalid credentials");
+       Swal.fire({
+           title: 'error!',
+           text: 'invalid email or password',
+           icon: 'error',
+           confirmButtonText: 'OK',
+         });
       }else{
-        alert("Successfully logged in");
+        localStorage.setItem("sessionId", JSON.stringify(api.data.session_id));
+          Swal.fire({
+            title: 'Success!',
+            text: 'Login successfully',
+            icon: 'success',
+            confirmButtonText: 'OK',
+          });
+          navigate('/')
+       
 
         //hold user
 //         localStorage.setItem('user_id', userId);
 // localStorage.setItem('username', username);
 
-
-        // Access session cookie in JavaScript
-const sessionId = document.cookie
-.split('; ')
-.find(row => row.startsWith('PHPSESSID='))
-?.split('=')[1];
-
-console.log(sessionId);  // Logs the PHP session ID
 
       }
       
