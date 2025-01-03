@@ -46,7 +46,9 @@ const Navbar = () => {
 
           {/* Login / Logout Button */}
           {localStorage.getItem("sessionId") ? (
-            <div className="hidden md:block">
+             <div className="hidden md:flex">
+               <p className="px-4 p-2 ">welcome pratap</p>
+            <div className="">
               <button
                 onClick={handleLogout}
                 className="bg-indigo-700 px-4 py-2 border border-white rounded hover:bg-indigo-800 transition"
@@ -54,6 +56,7 @@ const Navbar = () => {
                 Logout
               </button>
             </div>
+             </div>
           ) : (
             <div className="hidden md:block">
               <Link to="/login">
@@ -106,13 +109,16 @@ const Navbar = () => {
               </Link>
 
               {localStorage.getItem("sessionId") ? (
-                <div className="block hover:text-purple-400">
-                  <button
-                    onClick={handleLogout}
-                    className="bg-indigo-700 px-4 py-2 border border-white rounded hover:bg-indigo-800 transition"
-                  >
-                    Logout
-                  </button>
+                <div>
+                  <p className="p-2">welcome pratap</p>
+                  <div className="block hover:text-purple-400">
+                    <button
+                      onClick={handleLogout}
+                      className="bg-indigo-700 px-4 py-2 border border-white rounded hover:bg-indigo-800 transition"
+                    >
+                      Logout
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <Link to="/login">
