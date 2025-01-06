@@ -1,17 +1,19 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import ContextApp from "../context/ContextApp";
+import { useContext } from "react";
 const Login = () => {
-  const navigate=useNavigate();
+  const { loginUser } = useContext(ContextApp);
+  const navigate = useNavigate();
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
 
-  const data={
+  const data = {
     email: email,
     password: password,
-  }
+  };
 
   const handelSubmitForm = (e) => {
     e.preventDefault();
@@ -19,45 +21,26 @@ const Login = () => {
   };
 
   const submitLogin = async () => {
-    try {
-      //fetch api
-      const api = await axios.post(
-        "http://localhost/blogweb/backend/login.php",
-        data,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      // console.log(api.data.session_id);
-      if (api.data.success==false) {
-       Swal.fire({
-           title: 'error!',
-           text: 'invalid email or password',
-           icon: 'error',
-           confirmButtonText: 'OK',
-         });
-      }else{
-        localStorage.setItem("sessionId", JSON.stringify(api.data.session_id));
-          Swal.fire({
-            title: 'Success!',
-            text: 'Login successfully',
-            icon: 'success',
-            confirmButtonText: 'OK',
-          });
-          navigate('/')
-       
+    const result = await loginUser(data);
+    // console.log(result.id);
 
-        //hold user
-//         localStorage.setItem('user_id', userId);
-// localStorage.setItem('username', username);
-
-
-      }
-      
-    } catch (error) {
-      console.log("something  went wrong :", error);
+    if (result.success == false) {
+      Swal.fire({
+        title: "error!",
+        text: "invalid email or password",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+    } else {
+      localStorage.setItem("sessionId", JSON.stringify(result.session_id));
+      localStorage.setItem("user_id",result.id ); //logged user id set
+      Swal.fire({
+        title: "Success!",
+        text: "Login successfully",
+        icon: "success",
+        confirmButtonText: "OK",
+      });
+      navigate("/");
     }
   };
 
@@ -126,7 +109,7 @@ const Login = () => {
         </div>
 
         {/* Social Login Buttons */}
-        
+
         <button className="flex justify-center w-full bg-gray-800 text-white py-2 rounded-lg hover:bg-gray-900 transition duration-300">
           <span>
             {" "}

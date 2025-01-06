@@ -1,20 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { useContext } from "react";
+import  ContextApp from '../context/ContextApp';
 
 const BlogHome = () => {
-  const [click, setClick] = useState(false);
+  const {blogs}=useContext(ContextApp);
 
-  const [items, setblogs] = useState();
-
-  const [filteredBlogs, setFilteredBlogs] = useState(items);
+  // console.log(blogs);
+  
+const [click, setClick] = useState(false);
+// const [blogs, setblogs] = useState();
+const [filteredBlogs, setFilteredBlogs] = useState(blogs);
 
   const categoryBlog = (category) => {
     if (category === "All") {
       // Show all blogs if All is selected
-      setFilteredBlogs(items);
+      setFilteredBlogs(blogs);
     } else {
-      const filteredData = items.filter(
+      const filteredData = blogs.filter(
         (blog) => blog.blog_category?.toLowerCase() === category.toLowerCase()
       );
 
@@ -26,38 +30,24 @@ const BlogHome = () => {
     setClick(!click);
   };
 
-  useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        const response = await axios.get(
-          "  http://localhost/blogweb/backend/allblogs.php"
-        );
-        // console.log(response.data)
-        setblogs(response.data.blogs);
-        setFilteredBlogs(response.data.blogs);
-      } catch (error) {
-        console.error("Error fetching blogs", error);
-      }
-    };
 
-    fetchBlogs();
-  }, []);
  
  //only popular  categories
 const popularBlogs =
-items &&
-items.filter((blogs) => blogs.blog_category.toLowerCase() == "technology");
+blogs &&
+blogs.filter((blogs) => blogs.blog_category.toLowerCase() == "popular");
 
-  console.log(popularBlogs);
+  // console.log(popularBlogs);
 
   return (
     <div className="flex justify-center mt-20  mb-20">
+     
       <div className="flex md:space-x-4">
+        
         {/* Left Column */}
-        <div className=" hidden md:block w-[150px] h-[330px] bg-white rounded">
+        {/* <div className=" hidden md:block w-[150px] h-[330px] bg-white rounded">
           <ul className="">
-            {/* <Link to={"/about"}> */} <li className="p-2 ">About Us</li>{" "}
-            {/* </Link> */}
+            <li className="p-2 ">About Us</li>{" "}
             <li className="p-2 ">Advertise with us</li>
             <li className="p-2 ">Safety Tips</li>
             <li className="p-2 ">FAQs</li>
@@ -66,39 +56,39 @@ items.filter((blogs) => blogs.blog_category.toLowerCase() == "technology");
             <li className="p-2 ">Privacy Privacy</li>
             <li className="p-2 ">Contact Us</li>
           </ul>
-        </div>
+        </div> */}
 
         {/* Middle Column */}
         <div className="bg-white rounded  mx-2 md:w-[560px] lg:w-[600px] xl:w-[890px]  ">
           <div className="">
-            <ul className="flex justify-center items-center pt-2 xl:gap-x-10">
+            <ul className="flex justify-center blogs-center pt-2 xl:gap-x-10">
               <li
-                className="text-xs md:text-sm cursor-pointer  px-1  sm:px-2 md:p-2"
+                className="text-xs md:text-sm cursor-pointer  px-1 pt-2  sm:px-2 md:p-2"
                 onClick={() => categoryBlog("popular")}
               >
                 Popular
               </li>
 
-              <li
-                className="text-xs md:text-sm cursor-pointer px-1  sm:px-2 md:p-2"
+              <li 
+                className="text-xs md:text-sm cursor-pointer px-1 pt-2  sm:px-2 md:p-2"
                 onClick={() => categoryBlog("lifestyle")}
               >
                 Lifestyle
               </li>
               <li
-                className="text-xs md:text-sm cursor-pointer  px-1 sm:px-2 md:p-2"
+                className="text-xs md:text-sm cursor-pointer  px-1 pt-2  sm:px-2 md:p-2"
                 onClick={() => categoryBlog("shopping")}
               >
                 Shopping
               </li>
               <li
-                className="text-xs md:text-sm cursor-pointer  px-1 sm:px-2 md:p-2"
+                className="text-xs md:text-sm cursor-pointer  px-1 pt-2 sm:px-2 md:p-2"
                 onClick={() => categoryBlog("technology")}
               >
                 Technology
               </li>
               <li
-                className="text-xs md:text-sm cursor-pointer  px-1 sm:px-2 md:p-2"
+                className="text-xs md:text-sm cursor-pointer  px-1 pt-2 sm:px-2 md:p-2"
                 onClick={() => categoryBlog("sports")}
               >
                 Sports
@@ -107,9 +97,10 @@ items.filter((blogs) => blogs.blog_category.toLowerCase() == "technology");
               {/* Click on 3-dot menu */}
               <li
                 onClick={togglemodeDropdown}
-                className="relative flex sm:hidden p-2 cursor-pointer"
+                className="relative flex sm:hidden p-1 cursor-pointer"
               >
-                ⋮{/* Dropdown menu */}
+                ⋮
+                {/* Dropdown menu */}
                 {click && (
                   <ul className="absolute top-8 right-0 w-32 bg-white shadow-md rounded-md">
                     <li
@@ -140,27 +131,27 @@ items.filter((blogs) => blogs.blog_category.toLowerCase() == "technology");
                 )}
               </li>
 
-              {/* Hidden items for larger screens */}
+              {/* Hidden blogs for larger screens */}
               <li
-                className="hidden sm:flex text-xs md:text-sm cursor-pointer px-2 md:p-2"
+                className="hidden sm:flex text-xs md:text-sm  pt-2 cursor-pointer px-2 md:p-2"
                 onClick={() => categoryBlog("health")}
               >
                 Health
               </li>
               <li
-                className="hidden sm:flex text-xs md:text-sm cursor-pointer px-2 md:p-2"
+                className="hidden sm:flex text-xs md:text-sm pt-2 cursor-pointer px-2 md:p-2"
                 onClick={() => categoryBlog("travel")}
               >
                 Travel
               </li>
               <li
-                className="hidden sm:flex text-xs md:text-sm cursor-pointer px-2 md:p-2"
+                className="hidden sm:flex text-xs md:text-sm pt-2 cursor-pointer px-2 md:p-2"
                 onClick={() => categoryBlog("food")}
               >
                 Food
               </li>
               <li
-                className="hidden sm:flex text-xs md:text-sm cursor-pointer px-2 md:p-2"
+                className="hidden sm:flex text-xs md:text-sm  pt-2 cursor-pointer px-2 md:p-2"
                 onClick={() => categoryBlog("All")}
               >
                 All
@@ -174,7 +165,7 @@ items.filter((blogs) => blogs.blog_category.toLowerCase() == "technology");
               filteredBlogs.map((blog) => (
                 <div
                   key={blog.id}
-                  className="flex md:flex-row items-center bg-white  rounded-lg overflow-hidden"
+                  className="flex md:flex-row blogs-center bg-white  rounded-lg overflow-hidden"
                 >
                   {/* Left Content */}
 
@@ -190,7 +181,7 @@ items.filter((blogs) => blogs.blog_category.toLowerCase() == "technology");
                       {/* <p className="text-xs md:text-sm text-gray-700 mt-4 ">
                       {blog.desc}
                     </p> */}
-                      <div className=" items-center gap-4 mt-4 text-sm text-gray-500">
+                      <div className=" blogs-center gap-4 mt-4 text-sm text-gray-500">
                         <span className="text-xs md:text-sm">
                           {blog.blog_author}
                         </span>{" "}
@@ -219,21 +210,23 @@ items.filter((blogs) => blogs.blog_category.toLowerCase() == "technology");
         </div>
 
         {/* Right Column */}
-        <div className=" bg-white rounded  w-[180px] h-[230px] hidden lg:block  ">
+        <div className=" bg-white rounded  w-[280px] h-[300px]    hidden lg:block  ">
           {popularBlogs &&
             popularBlogs.map((blogs) => {
               return (
                 <div key={blogs.id}>
                   <h2 className="p-2">Popular Posts</h2>
                   <ul className=" p-2">
+                  <Link to={`/singlepage/${blogs.id}`}>
                     <img src={blogs.blog_img} alt="" />
                     <p className="text-indigo-600 p-2 font-bold">
                       {blogs.blog_category}
                     </p>
+                    </Link>
                     <li className="p-2">
                       {blogs.blog_title}
-                      <br />
-
+                      {/* <br /> */}
+          
                       <p className="text-xs">23 Likes</p>
                     </li>
                   </ul>

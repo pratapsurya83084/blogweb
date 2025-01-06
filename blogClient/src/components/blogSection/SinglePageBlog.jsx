@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   FaThumbsUp,
   FaThumbsDown,
@@ -8,20 +8,62 @@ import {
 import { useParams, Link } from "react-router-dom";
 import Layout from "../outlet/Layout";
 import axios from "axios";
+import ContextApp from "../context/ContextApp";
 
 const SinglePageBlog = () => {
+  const { like_blog_post } = useContext(ContextApp);
+
   const [likes, setLikes] = useState(0);
   const [dislikes, setDislikes] = useState(0);
+
   const [isSaved, setIsSaved] = useState(false);
 
-  const handleLike = () => setLikes((prev) => prev + 1);
-  const handleDislike = () => setDislikes((prev) => prev + 1);
-  const handleSave = () => setIsSaved((prev) => !prev);
-
   const [blogs, setFilteredBlogs] = useState([]);
+
   const { id } = useParams();
   const blogId = Number(id); // Convert to number
   const [blogdata, setblogs] = useState([]);
+
+  // Function to handle like
+  const handleLike = async (postId) => {
+    try {
+      const userId = localStorage.getItem("user_id");
+      // console.log("User ID:", userId);
+
+      // API call
+      const response = await like_blog_post(postId, userId);
+      console.log(response);
+
+      if (response.like_status == "added") {
+        setLikes(likes + 1);
+        console.log("Like added successfully:", response.like_status);
+      } else if (response.status == "removed") {
+        setLikes(likes - 1);
+        console.error("Failed to record like:", response.message);
+      }
+    } catch (error) {
+      console.error("Error while handling like:", error);
+    }
+  };
+
+  // Function to handle dislike
+  const handleDislike = () => {
+    if (likes > 0) setLikes(likes - 1); // Remove like if it's already set
+    setDislikes(dislikes + 1); // Increment dislikes
+  };
+
+  // Function to handle saving the post
+  const handleSave = () => {
+    setIsSaved(!isSaved); // Toggle saved state
+  };
+
+  // Handle unsave action
+  const handleUnsave = () => {
+    axios
+      .post("/api/unsave", { post_id: blogId })
+      .then((response) => setIsSaved(false))
+      .catch((error) => console.error("Error unsaving the post:", error));
+  };
 
   // Fetch all blogs
   useEffect(() => {
@@ -54,7 +96,7 @@ const SinglePageBlog = () => {
           blog.blog_category.toLowerCase() ===
           idwise_blogpost[0].blog_category.toLowerCase()
       );
-      console.log("Related Blogs:", relatedBlogs);
+      // console.log("Related Blogs:", relatedBlogs);
 
       if (relatedBlogs.length > 0) {
         setblogs(relatedBlogs);
@@ -71,7 +113,7 @@ const SinglePageBlog = () => {
       <div>
         {blogdata.map((blog, i) => {
           return (
-            <div key={i} className="relative w-full">
+            <div key={i} className="relative w-full ">
               <img
                 src={blog.blog_poster_img}
                 alt="poster image"
@@ -86,8 +128,8 @@ const SinglePageBlog = () => {
           );
         })}
 
-        <div className="mb-10 flex flex-col lg:flex-row justify-center items-start px-4 mt-10">
-          <div className="max-w-2xl mb-10 bg-white shadow-lg rounded-lg p-6 text-left lg:w-2/3 lg:mr-8">
+        <div className="mb-10 w-full flex flex-col lg:flex-row justify-center items-start px-4 mt-10">
+          <div className="lg:max-w-3xl  mb-10 bg-white shadow-lg rounded-lg p-6 text-left lg:w-2/3 lg:mr-8">
             {blogdata &&
               blogdata.map((blog, i) => {
                 return (
@@ -108,10 +150,11 @@ const SinglePageBlog = () => {
                       {blog.blog_content}
                     </p>
 
+                    {/* like dislike share button */}
                     <div className="flex justify-start items-center gap-6 mt-6">
                       <button
                         className="flex items-center text-gray-700 hover:text-indigo-500"
-                        onClick={handleLike}
+                        onClick={() => handleLike(blogId)}
                       >
                         <FaThumbsUp className="mr-2" />
                         <span>{likes}</span>
@@ -131,15 +174,15 @@ const SinglePageBlog = () => {
                       >
                         <FaShareAlt className="mr-2" />
                       </button>
-                      <button
-                        className={`flex items-center ${
-                          isSaved ? "text-yellow-500" : "text-gray-700"
-                        } hover:text-yellow-500`}
-                        onClick={handleSave}
-                      >
-                        <FaBookmark className="mr-2" />
-                        <span>{isSaved ? "Saved" : "Save"}</span>
-                      </button>
+                      {isSaved ? (
+                        <button onClick={handleUnsave}>
+                          <FaBookmark /> Unsave
+                        </button>
+                      ) : (
+                        <button onClick={handleSave}>
+                          <FaBookmark /> Save
+                        </button>
+                      )}
                     </div>
                   </div>
                 );
@@ -147,7 +190,7 @@ const SinglePageBlog = () => {
           </div>
 
           {/* Related Blogs */}
-          <div className="lg:w-1/3 mt-8 lg:mt-0 bg-white shadow-lg rounded-lg p-6">
+          <div className="hidden lg:flex w-full lg:w-auto   mt-8 lg:mt-0 bg-white shadow-lg rounded-lg p-6">
             <h2 className="text-2xl font-semibold mb-4">Related Blogs</h2>
             <div className="space-y-4">
               {blogdata.map((blog, i) => {

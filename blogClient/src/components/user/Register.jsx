@@ -1,62 +1,57 @@
 import React, { useState } from "react";
-import axios from "axios";
+import Swal from 'sweetalert2';
 import {useNavigate}  from 'react-router-dom';
 import {Link} from 'react-router-dom';
-import Swal from 'sweetalert2';
+
+import ContextApp from "../context/ContextApp";
+import {useContext}   from 'react';
 const Register= () => {
+  const { registerUser } = useContext(ContextApp); // Use the correct context
   const navigate = useNavigate();
+
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState();
+
 
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Prepare the data to send to the backend
     const userData = {
-      username: username,
-      email: email,
-      password: password,
-     
+      username,
+      email,
+      password,
     };
 
-  
-      // Send a POST request to the backend
-      const response = await axios.post(
-        "http://localhost/blogweb/backend/register.php", // URL to your backend
+    // Call the registerUser function from the context
+    try {
+      // console.log(await registerUser({ userData }));
+      const result= await registerUser({ userData });
+      console.log(result.success);
       
-        userData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            // "Accept": "application/json", 
-          },
-         
-        }
-      );
-console.log(response.data);
-
-if (response.data.success==true) {
-  Swal.fire({
-    title: 'Success!',
-    text: 'User registered successfully',
-    icon: 'success',
-    confirmButtonText: 'OK',
-  });
-  navigate('/login')
-} else {
-  Swal.fire({
-    title: 'error!',
-    text: 'User Already registered ',
-    icon: 'error',
-    confirmButtonText: 'OK',
-  });
-  // alert(response.data.message); // For any error or other message from the backend
-  setMessage("User already Exists !");
-}
-    
+      if (result.success==true) {
+        navigate('/login')
+        Swal.fire({
+          title: 'Success!',
+          text: 'User registered successfully',
+          icon: 'success',
+          confirmButtonText: 'OK',
+        });
+       
+      } else {
+        Swal.fire({
+          title: 'error!',
+          text: 'User Already registered ',
+          icon: 'error',
+          confirmButtonText: 'OK',
+        });
+       
+      }
+      // await ;
+     
+    } catch (error) {
+      console.error("Error during registration:", error);
+    }
   };
 
   return (
@@ -108,7 +103,7 @@ if (response.data.success==true) {
         </p>
       </form>
 
-      {message && <p className="mt-4 text-center text-red-500">{message}</p>}
+     
     </div>
   </div>
   );

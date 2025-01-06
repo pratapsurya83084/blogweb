@@ -36,9 +36,11 @@ if ($execute) {
             echo json_encode([
                 "message" => "User logged in successfully",
                 "success" => true,
+                "id"=>$user['id'],
                 "user" => $user['username'],
                 "session_id" => session_id()  //
             ]);
+        
         } else {
             // Password incorrect
             echo json_encode([
