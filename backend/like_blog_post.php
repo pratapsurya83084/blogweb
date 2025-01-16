@@ -39,7 +39,7 @@ if (isset($data['action']) && $data['action'] === "fetch_likes" && isset($data['
         $stmt->bind_param("ii", $post_id, $user_id);
 
         if ($stmt->execute()) {
-            echo json_encode(["success" => true, "message" => "Like removed successfully", "like_status" => "removed"]);
+            echo json_encode(["success" => false, "message" => "Like removed successfully", "like_status" => "removed"]);
         } else {
             echo json_encode(["success" => false, "message" => "Failed to remove like"]);
         }

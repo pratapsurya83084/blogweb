@@ -2,16 +2,16 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useContext } from "react";
-import  ContextApp from '../context/ContextApp';
+import ContextApp from "../context/ContextApp";
 
 const BlogHome = () => {
-  const {blogs}=useContext(ContextApp);
+  const { blogs } = useContext(ContextApp);
 
   // console.log(blogs);
-  
-const [click, setClick] = useState(false);
-// const [blogs, setblogs] = useState();
-const [filteredBlogs, setFilteredBlogs] = useState(blogs);
+
+  const [click, setClick] = useState(false);
+  // const [blogs, setblogs] = useState();
+  const [filteredBlogs, setFilteredBlogs] = useState(blogs);
 
   const categoryBlog = (category) => {
     if (category === "All") {
@@ -30,20 +30,16 @@ const [filteredBlogs, setFilteredBlogs] = useState(blogs);
     setClick(!click);
   };
 
-
- 
- //only popular  categories
-const popularBlogs =
-blogs &&
-blogs.filter((blogs) => blogs.blog_category.toLowerCase() == "popular");
+  //only popular  categories
+  const popularBlogs =
+    blogs &&
+    blogs.filter((blogs) => blogs.blog_category.toLowerCase() == "popular");
 
   // console.log(popularBlogs);
 
   return (
     <div className="flex justify-center mt-20  mb-20">
-     
       <div className="flex md:space-x-4">
-        
         {/* Left Column */}
         {/* <div className=" hidden md:block w-[150px] h-[330px] bg-white rounded">
           <ul className="">
@@ -69,7 +65,7 @@ blogs.filter((blogs) => blogs.blog_category.toLowerCase() == "popular");
                 Popular
               </li>
 
-              <li 
+              <li
                 className="text-xs md:text-sm cursor-pointer px-1 pt-2  sm:px-2 md:p-2"
                 onClick={() => categoryBlog("lifestyle")}
               >
@@ -99,8 +95,7 @@ blogs.filter((blogs) => blogs.blog_category.toLowerCase() == "popular");
                 onClick={togglemodeDropdown}
                 className="relative flex sm:hidden p-1 cursor-pointer"
               >
-                ⋮
-                {/* Dropdown menu */}
+                ⋮{/* Dropdown menu */}
                 {click && (
                   <ul className="absolute top-8 right-0 w-32 bg-white shadow-md rounded-md">
                     <li
@@ -179,8 +174,8 @@ blogs.filter((blogs) => blogs.blog_category.toLowerCase() == "popular");
 
                     <Link to={`/singlepage/${blog.id}`}>
                       {/* <p className="text-xs md:text-sm text-gray-700 mt-4 ">
-                      {blog.desc}
-                    </p> */}
+                    {blog.desc}
+                  </p> */}
                       <div className=" blogs-center gap-4 mt-4 text-sm text-gray-500">
                         <span className="text-xs md:text-sm">
                           {blog.blog_author}
@@ -217,16 +212,16 @@ blogs.filter((blogs) => blogs.blog_category.toLowerCase() == "popular");
                 <div key={blogs.id}>
                   <h2 className="p-2">Popular Posts</h2>
                   <ul className=" p-2">
-                  <Link to={`/singlepage/${blogs.id}`}>
-                    <img src={blogs.blog_img} alt="" />
-                    <p className="text-indigo-600 p-2 font-bold">
-                      {blogs.blog_category}
-                    </p>
+                    <Link to={`/singlepage/${blogs.id}`}>
+                      <img src={blogs.blog_img} alt="" />
+                      <p className="text-indigo-600 p-2 font-bold">
+                        {blogs.blog_category}
+                      </p>
                     </Link>
                     <li className="p-2">
                       {blogs.blog_title}
                       {/* <br /> */}
-          
+
                       <p className="text-xs">23 Likes</p>
                     </li>
                   </ul>

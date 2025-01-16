@@ -22,7 +22,7 @@ const Login = () => {
 
   const submitLogin = async () => {
     const result = await loginUser(data);
-    // console.log(result.id);
+    // console.log(result.user);
 
     if (result.success == false) {
       Swal.fire({
@@ -34,6 +34,7 @@ const Login = () => {
     } else {
       localStorage.setItem("sessionId", JSON.stringify(result.session_id));
       localStorage.setItem("user_id",result.id ); //logged user id set
+     localStorage.setItem("email",result.user);
       Swal.fire({
         title: "Success!",
         text: "Login successfully",

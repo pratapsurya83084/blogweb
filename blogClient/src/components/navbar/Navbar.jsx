@@ -4,11 +4,12 @@ import { Link, useNavigate } from "react-router-dom";
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
-
+ const name=localStorage.getItem('email')
+//  console.log(name);
+ 
   const handleLogout = () => {
     // Remove session ID from localStorage
     localStorage.removeItem("sessionId");
-
     // Redirect to the login page
     navigate("/login");
   };
@@ -47,7 +48,7 @@ const Navbar = () => {
           {/* Login / Logout Button */}
           {localStorage.getItem("sessionId") ? (
              <div className="hidden md:flex">
-               <p className="px-4 p-2 ">welcome pratap</p>
+               <p className="px-4 p-2 ">welcome {name}</p>
             <div className="">
               <button
                 onClick={handleLogout}
@@ -110,7 +111,7 @@ const Navbar = () => {
 
               {localStorage.getItem("sessionId") ? (
                 <div>
-                  <p className="p-2">welcome pratap</p>
+                  <p className="p-2">welcome {name}</p>
                   <div className="block hover:text-purple-400">
                     <button
                       onClick={handleLogout}

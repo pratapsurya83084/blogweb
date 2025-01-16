@@ -13,8 +13,8 @@ import ContextApp from "../context/ContextApp";
 const SinglePageBlog = () => {
   const { like_blog_post } = useContext(ContextApp);
 
-  const [likes, setLikes] = useState(0);
-  const [dislikes, setDislikes] = useState(0);
+ 
+
 
   const [isSaved, setIsSaved] = useState(false);
 
@@ -23,34 +23,64 @@ const SinglePageBlog = () => {
   const { id } = useParams();
   const blogId = Number(id); // Convert to number
   const [blogdata, setblogs] = useState([]);
-
+  const [likes, setLikes] = useState(0); // Total likes for the post
+  const [isLiked, setIsLiked] = useState(false); // Whether the user has liked the post
+  
   // Function to handle like
   const handleLike = async (postId) => {
     try {
       const userId = localStorage.getItem("user_id");
-      // console.log("User ID:", userId);
-
+      if (!userId) {
+        alert("Please log in to like the post.");
+        return;
+      }
+  
       // API call
       const response = await like_blog_post(postId, userId);
-      console.log(response);
-
-      if (response.like_status == "added") {
-        setLikes(likes + 1);
+  
+      if (response.like_status === "added") {
+        setLikes((prevLikes) => prevLikes + 1); // Increment the like count
+        setIsLiked(true); // Update to liked
         console.log("Like added successfully:", response.like_status);
-      } else if (response.status == "removed") {
-        setLikes(likes - 1);
-        console.error("Failed to record like:", response.message);
+      } else if (response.like_status === "removed") {
+        setLikes((prevLikes) => prevLikes - 1); // Decrement the like count
+        setIsLiked(false); // Update to not liked
+        console.log("Like removed successfully:", response.like_status);
+      } else {
+        console.error("Unexpected response:", response.message);
       }
     } catch (error) {
       console.error("Error while handling like:", error);
     }
   };
+  
 
-  // Function to handle dislike
-  const handleDislike = () => {
-    if (likes > 0) setLikes(likes - 1); // Remove like if it's already set
-    setDislikes(dislikes + 1); // Increment dislikes
-  };
+  useEffect(() => {
+    const fetchInitialLikeStatus = async () => {
+      try {
+        const userId = localStorage.getItem("user_id");
+        if (!userId) return;
+  
+        const response = await axios.post("http://localhost/blogweb/backend/like_blog_post.php", {
+          post_id: blogId,
+          user_id: userId,
+        });
+  
+        if (response.data.liked) {
+          setIsLiked(true);
+        } else {
+          setIsLiked(false);
+        }
+  
+        setLikes(response.data.totalLikes || 0); // Set initial like count
+      } catch (error) {
+        console.error("Error fetching like status:", error);
+      }
+    };
+  
+    fetchInitialLikeStatus();
+  }, [blogId]);
+  
 
   // Function to handle saving the post
   const handleSave = () => {
@@ -152,6 +182,7 @@ const SinglePageBlog = () => {
 
                     {/* like dislike share button */}
                     <div className="flex justify-start items-center gap-6 mt-6">
+                      {/* like button */}
                       <button
                         className="flex items-center text-gray-700 hover:text-indigo-500"
                         onClick={() => handleLike(blogId)}
@@ -159,13 +190,13 @@ const SinglePageBlog = () => {
                         <FaThumbsUp className="mr-2" />
                         <span>{likes}</span>
                       </button>
-                      <button
+                      {/* <button
                         className="flex items-center text-gray-700 hover:text-red-500"
                         onClick={handleDislike}
                       >
                         <FaThumbsDown className="mr-2" />
                         <span>{dislikes}</span>
-                      </button>
+                      </button> */}
                       <button
                         className="flex items-center text-gray-700 hover:text-green-500"
                         onClick={() =>
