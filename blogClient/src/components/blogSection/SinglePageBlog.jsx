@@ -13,9 +13,6 @@ import ContextApp from "../context/ContextApp";
 const SinglePageBlog = () => {
   const { like_blog_post } = useContext(ContextApp);
 
- 
-
-
   const [isSaved, setIsSaved] = useState(false);
 
   const [blogs, setFilteredBlogs] = useState([]);
@@ -25,7 +22,14 @@ const SinglePageBlog = () => {
   const [blogdata, setblogs] = useState([]);
   const [likes, setLikes] = useState(0); // Total likes for the post
   const [isLiked, setIsLiked] = useState(false); // Whether the user has liked the post
-  
+
+  const [allLikes, setLikesALL] = useState([]);
+  // console.log(allLikes);
+
+  // filter liked user counts blog post specific
+  const countLikes = allLikes.filter((likepost) => likepost.post_id == blogId);
+  console.log(countLikes.length);
+
   // Function to handle like
   const handleLike = async (postId) => {
     try {
@@ -34,17 +38,20 @@ const SinglePageBlog = () => {
         alert("Please log in to like the post.");
         return;
       }
-  
+
       // API call
       const response = await like_blog_post(postId, userId);
-  
+
       if (response.like_status === "added") {
         setLikes((prevLikes) => prevLikes + 1); // Increment the like count
         setIsLiked(true); // Update to liked
+
         console.log("Like added successfully:", response.like_status);
+        localStorage.setItem(`isLiked_${postId}_${userId}`, true);
       } else if (response.like_status === "removed") {
         setLikes((prevLikes) => prevLikes - 1); // Decrement the like count
         setIsLiked(false); // Update to not liked
+        localStorage.setItem(`isLiked_${postId}_${userId}`, false);
         console.log("Like removed successfully:", response.like_status);
       } else {
         console.error("Unexpected response:", response.message);
@@ -53,34 +60,39 @@ const SinglePageBlog = () => {
       console.error("Error while handling like:", error);
     }
   };
-  
 
-  useEffect(() => {
-    const fetchInitialLikeStatus = async () => {
-      try {
-        const userId = localStorage.getItem("user_id");
-        if (!userId) return;
-  
-        const response = await axios.post("http://localhost/blogweb/backend/like_blog_post.php", {
+// Initial like status fetch without using localStorage
+useEffect(() => {
+  const fetchInitialLikeStatus = async () => {
+    try {
+      const userId = localStorage.getItem("user_id");
+      if (!userId) return;
+
+      const response = await axios.post(
+        "http://localhost/blogweb/backend/like_blog_post.php",
+        {
           post_id: blogId,
           user_id: userId,
-        });
-  
-        if (response.data.liked) {
-          setIsLiked(true);
-        } else {
-          setIsLiked(false);
         }
-  
-        setLikes(response.data.totalLikes || 0); // Set initial like count
-      } catch (error) {
-        console.error("Error fetching like status:", error);
+      );
+
+      if (response.data.liked) {
+        setIsLiked(true);
+      } else {
+        setIsLiked(false);
       }
-    };
-  
-    fetchInitialLikeStatus();
-  }, [blogId]);
-  
+
+      setLikes(response.data.totalLikes || 0); // Set initial like count
+    } catch (error) {
+      console.error("Error fetching like status:", error);
+    }
+  };
+
+  fetchInitialLikeStatus();
+}, [blogId]);
+
+
+
 
   // Function to handle saving the post
   const handleSave = () => {
@@ -94,6 +106,32 @@ const SinglePageBlog = () => {
       .then((response) => setIsSaved(false))
       .catch((error) => console.error("Error unsaving the post:", error));
   };
+
+
+  const All_like_blog_post=async()=>{
+    try {
+      //fetch api
+      const api = await axios.get(
+        "http://localhost/blogweb/backend/all_blog_likes_post.php",
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(api.data);
+  
+       setLikesALL(api.data.Likes);
+          
+        } catch (error) {
+          console.log("something  went wrong :", error);
+        }
+  }
+
+  useEffect(() => {
+       All_like_blog_post();
+
+  }, []); // Dependency array to avoid unnecessary re-renders
 
   // Fetch all blogs
   useEffect(() => {
@@ -184,12 +222,15 @@ const SinglePageBlog = () => {
                     <div className="flex justify-start items-center gap-6 mt-6">
                       {/* like button */}
                       <button
-                        className="flex items-center text-gray-700 hover:text-indigo-500"
+                        className={`flex items-center ${
+                          isLiked ? "text-red-500" : "text-gray-700"
+                        }`}
                         onClick={() => handleLike(blogId)}
                       >
                         <FaThumbsUp className="mr-2" />
-                        <span>{likes}</span>
+                        <span>{countLikes.length}</span>
                       </button>
+
                       {/* <button
                         className="flex items-center text-gray-700 hover:text-red-500"
                         onClick={handleDislike}

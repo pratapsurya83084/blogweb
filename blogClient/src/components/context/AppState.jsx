@@ -69,7 +69,7 @@ useEffect(()=>{
 
 
 
-//blog_post like api 
+//blog_post like api add liked
 const like_blog_post=async(post_id,user_id)=>{
   try {
     //fetch api
@@ -91,9 +91,39 @@ const like_blog_post=async(post_id,user_id)=>{
 }
 
 
+// get all likes 
+
+// const All_like_blog_post=async()=>{
+//   try {
+//     //fetch api
+//     const api = await axios.get(
+//       "http://localhost/blogweb/backend/all_Blog_likes_post.php",
+//       {
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//       }
+//     );
+//     // console.log(api.data);
+//      return api.data;
+        
+//       } catch (error) {
+//         console.log("something  went wrong :", error);
+//       }
+// }
+
+
+
 
   return (
-    <ContextApp.Provider value={{registerUser,loginUser,blogs,blogData,like_blog_post}}>
+    <ContextApp.Provider 
+    value={{registerUser
+    ,loginUser,
+    blogs,
+    blogData,
+    like_blog_post,
+    
+     }}>
       {children}
     </ContextApp.Provider>
   );
