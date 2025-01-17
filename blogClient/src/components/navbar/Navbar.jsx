@@ -10,6 +10,7 @@ const Navbar = () => {
   const handleLogout = () => {
     // Remove session ID from localStorage
     localStorage.removeItem("sessionId");
+    localStorage.removeItem("user_id");
     // Redirect to the login page
     navigate("/login");
   };

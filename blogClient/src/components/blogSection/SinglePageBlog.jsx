@@ -2,7 +2,11 @@ import React, { useState, useEffect, useContext } from "react";
 import {
   FaThumbsUp,
   FaThumbsDown,
+  FaTwitter,
+  FaWhatsapp,
   FaShareAlt,
+  FaFacebook,
+
   FaBookmark,
 } from "react-icons/fa";
 import { useParams, Link } from "react-router-dom";
@@ -24,91 +28,159 @@ const SinglePageBlog = () => {
   const [isLiked, setIsLiked] = useState(false); // Whether the user has liked the post
 
   const [allLikes, setLikesALL] = useState([]);
-  // console.log(allLikes);
+  const [buttoncolor, setbuttoncolor] = useState();
+  const [userLikedBlogs, setUserLikedBlogs] = useState([]);
+  const [userid, setuserid] = useState();
+  const [postid, setpostid] = useState();
+
+  // share
+  const [isOpen, setIsOpen] = useState(false);
+const [allsavedpostid,setSavedblodids]=useState([]);
+// console.log(allsavedpostid);
+const [statusId, setStatusId] = useState(null);
+console.log(statusId);
+
+  // Social media share links
+  const shareLinks = {
+    facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`,
+    twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}`,
+    whatsapp: `https://api.whatsapp.com/send?text=${encodeURIComponent(window.location.href)}`,
+  };
+
+  const a = localStorage.getItem(`isLiked_${postid}_${userid}`);
+
 
   // filter liked user counts blog post specific
   const countLikes = allLikes.filter((likepost) => likepost.post_id == blogId);
-  console.log(countLikes.length);
+  // console.log(countLikes.length);
 
-  // Function to handle like
   const handleLike = async (postId) => {
     try {
       const userId = localStorage.getItem("user_id");
       if (!userId) {
         alert("Please log in to like the post.");
+        window.location.href = "/login";
         return;
       }
 
-      // API call
       const response = await like_blog_post(postId, userId);
-
-      if (response.like_status === "added") {
-        setLikes((prevLikes) => prevLikes + 1); // Increment the like count
-        setIsLiked(true); // Update to liked
-
-        console.log("Like added successfully:", response.like_status);
-        localStorage.setItem(`isLiked_${postId}_${userId}`, true);
-      } else if (response.like_status === "removed") {
-        setLikes((prevLikes) => prevLikes - 1); // Decrement the like count
-        setIsLiked(false); // Update to not liked
-        localStorage.setItem(`isLiked_${postId}_${userId}`, false);
-        console.log("Like removed successfully:", response.like_status);
-      } else {
-        console.error("Unexpected response:", response.message);
+      console.log(response);
+      
+      if (response.like_status) {
+        const updatedLikes =
+          response.like_status === "added"
+            ? [...userLikedBlogs, postId]
+            : userLikedBlogs.filter((id) => id !== postId);
+        setUserLikedBlogs(updatedLikes);
+        setuserid(userId);
+        setpostid(postId);
+        localStorage.setItem(
+          `isLiked_${postId}_${userId}`,
+          response.like_status === "added"
+        );
+        let a = localStorage.getItem(`isLiked_${postId}_${userId}`);
+        console.log("the current id post:", a);
       }
     } catch (error) {
-      console.error("Error while handling like:", error);
+      alert("An error occurred while processing your like. Please try again.");
     }
   };
 
-// Initial like status fetch without using localStorage
-useEffect(() => {
-  const fetchInitialLikeStatus = async () => {
-    try {
-      const userId = localStorage.getItem("user_id");
-      if (!userId) return;
+  // Initial like status fetch without using localStorage
+  useEffect(() => {
+    const fetchInitialLikeStatus = async () => {
+      try {
+        const userId = localStorage.getItem("user_id");
+        if (!userId) return;
 
-      const response = await axios.post(
-        "http://localhost/blogweb/backend/like_blog_post.php",
-        {
-          post_id: blogId,
-          user_id: userId,
+        const response = await axios.get(
+          "http://localhost/blogweb/backend/user_liked_posts.php", // Endpoint to fetch liked posts
+          { user_id: userId } 
+        );
+
+        if (response.data?.likedPosts) {
+          setUserLikedBlogs(
+            response.data.likedPosts.map((post) => post.post_id)
+          );
         }
-      );
-
-      if (response.data.liked) {
-        setIsLiked(true);
-      } else {
-        setIsLiked(false);
+      } catch (error) {
+        console.error("Error fetching user liked blogs:", error);
       }
+    };
 
-      setLikes(response.data.totalLikes || 0); // Set initial like count
-    } catch (error) {
-      console.error("Error fetching like status:", error);
-    }
-  };
+    fetchInitialLikeStatus();
+  }, []);
 
-  fetchInitialLikeStatus();
-}, [blogId]);
-
-
-
-
+ 
+ const blog_id=blogId;
   // Function to handle saving the post
-  const handleSave = () => {
+  const user_id = localStorage.getItem("user_id");
+  const handleSave = async() => {
     setIsSaved(!isSaved); // Toggle saved state
-  };
+    let user=localStorage.getItem("user_id");
+    if (user) {
+      const response = await axios.post('http://localhost/blogweb/backend/saved_blog_post.php',
+        { blog_id,user_id} ,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        
+      });
+      // console.log(response.data);
+      
+     
+
+      if(response.data.message=='saved'){
+          alert("Blog saved successfully");
+      }else{
+        alert("Blog already saved");
+      }
+  
+      console.log(response.data);
+      
+    }else{
+      alert("Please log in to save the post.");
+      window.location.href = "/login";
+    }
+    }
+
 
   // Handle unsave action
-  const handleUnsave = () => {
-    axios
-      .post("/api/unsave", { post_id: blogId })
-      .then((response) => setIsSaved(false))
-      .catch((error) => console.error("Error unsaving the post:", error));
+
+ 
+  const handleUnsave = async () => {
+    try {
+      const response = await axios.post(
+        'http://localhost/blogweb/backend/unsavedblogpost.php',
+        {
+          blog_id: blogId, // Replace with the blogId to delete
+          user_id: user_id,  // Replace with the logged-in user's id
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+  
+      if (response.data.status === "success") {
+        console.log(response.data.message); // "Post unsaved successfully."
+      } else {
+        console.error(response.data.message); // Error messages based on response
+      }
+    } catch (error) {
+      console.error("Error while unsaving the post:", error);
+    }
   };
+  
+  // Example usage
+  handleUnsave();
+  
 
 
-  const All_like_blog_post=async()=>{
+
+  const All_like_blog_post = async () => {
     try {
       //fetch api
       const api = await axios.get(
@@ -119,18 +191,16 @@ useEffect(() => {
           },
         }
       );
-      console.log(api.data);
-  
-       setLikesALL(api.data.Likes);
-          
-        } catch (error) {
-          console.log("something  went wrong :", error);
-        }
-  }
+      // console.log(api.data);
+
+      setLikesALL(api.data.Likes);
+    } catch (error) {
+      console.log("something  went wrong :", error);
+    }
+  };
 
   useEffect(() => {
-       All_like_blog_post();
-
+    All_like_blog_post();
   }, []); // Dependency array to avoid unnecessary re-renders
 
   // Fetch all blogs
@@ -176,6 +246,53 @@ useEffect(() => {
     }
   }, [blogs, blogId]);
 
+  // share link via whatsapp ,
+  const shareblogLink = () => {
+    setIsOpen(!isOpen);
+  };
+
+  //all savedpost
+ 
+   const allSavedPosts = (async()=>{
+     const api=await axios.get('http://localhost/blogweb/backend/getAllsavedPost.php',
+       {
+         headers: {
+           "Content-Type": "application/json",
+         },
+       }
+     )
+//  console.log("all saved post is:",api.data.data);
+ 
+setSavedblodids(api.data.data)
+   })
+
+  
+ useEffect(()=>{
+  allSavedPosts();
+ },[])
+
+
+//fetch this blog id which user currently view blog
+useEffect(() => {
+  const fetchid = allsavedpostid.filter(
+    (ids) =>
+      ids.blog_id == blogId && ids.user_id == localStorage.getItem("user_id")
+  );
+
+  if (fetchid.length > 0) {
+    const savedStatus = fetchid[0].saved_status;
+
+    if (savedStatus !== statusId) {
+      setStatusId(savedStatus); // Update state only if it changes
+    }
+  } else {
+    if (statusId !== null) {
+      setStatusId(null); // Clear state if no match is found
+    }
+  }
+}, [allsavedpostid, blogId, statusId]); 
+
+
   return (
     <Layout>
       <div>
@@ -204,7 +321,7 @@ useEffect(() => {
                   <div key={i}>
                     <img
                       src={blog.blog_img}
-                      className="w-full h-96 object-cover rounded-lg mb-6"
+                      className="w-full max-h-96 object-contain rounded-lg mb-6"
                     />
                     <h1 className="text-xl md:text-3xl font-bold mb-4 text-indigo-600">
                       {blog.blog_title}
@@ -223,7 +340,7 @@ useEffect(() => {
                       {/* like button */}
                       <button
                         className={`flex items-center ${
-                          isLiked ? "text-red-500" : "text-gray-700"
+                          postid == blogId && a ? "text-red-500" : "text-black"
                         }`}
                         onClick={() => handleLike(blogId)}
                       >
@@ -231,38 +348,73 @@ useEffect(() => {
                         <span>{countLikes.length}</span>
                       </button>
 
-                      {/* <button
-                        className="flex items-center text-gray-700 hover:text-red-500"
-                        onClick={handleDislike}
-                      >
-                        <FaThumbsDown className="mr-2" />
-                        <span>{dislikes}</span>
-                      </button> */}
                       <button
                         className="flex items-center text-gray-700 hover:text-green-500"
-                        onClick={() =>
-                          alert("Share functionality coming soon!")
-                        }
+                        onClick={shareblogLink}
                       >
                         <FaShareAlt className="mr-2" />
                       </button>
-                      {isSaved ? (
-                        <button onClick={handleUnsave}>
-                          <FaBookmark /> Unsave
+
+                    
+
+                      {statusId== 1 ? (
+                        <button onClick={handleUnsave} className="flex flex-col">
+                          <FaBookmark className="ml-4"/> Unsave
                         </button>
                       ) : (
                         <button onClick={handleSave}>
-                          <FaBookmark /> Save
+                          <FaBookmark  className="ml-2"/> Save
                         </button>
                       )}
                     </div>
+                   
+                      {/* share option Box */}
+                      {isOpen && (
+        <div className="absolute left-10 mt-2 w-40 bg-white border rounded shadow-lg">
+          <ul className="flex flex-col p-4">
+            <li className="flex items-center">
+              <FaFacebook className="text-blue-600 mr-2 h-10 w-40" />
+              <a
+                href={shareLinks.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block px-4 py-2 hover:bg-gray-100 w-full"
+              >
+                Facebook
+              </a>
+            </li>
+            <li className="flex items-center">
+              <FaTwitter className="text-blue-400 mr-2 h-6 w-8 right-4" />
+              <a
+                href={shareLinks.twitter}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block px-4 py-2 hover:bg-gray-100 w-full"
+              >
+                Twitter
+              </a>
+            </li>
+            <li className="flex items-center">
+              <FaWhatsapp className="text-green-500 mr-2 h-10" />
+              <a
+                href={shareLinks.whatsapp}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block px-4 py-2 hover:bg-gray-100 w-full"
+              >
+                WhatsApp
+              </a>
+            </li>
+          </ul>
+        </div>
+      )}
                   </div>
                 );
               })}
           </div>
 
           {/* Related Blogs */}
-          <div className="hidden lg:flex w-full lg:w-auto   mt-8 lg:mt-0 bg-white shadow-lg rounded-lg p-6">
+          <div className="hidden lg:flex flex-col w-full lg:w-auto   mt-8 lg:mt-0 bg-white shadow-lg rounded-lg p-6">
             <h2 className="text-2xl font-semibold mb-4">Related Blogs</h2>
             <div className="space-y-4">
               {blogdata.map((blog, i) => {
@@ -275,7 +427,7 @@ useEffect(() => {
                       <div>
                         <img
                           src={blog.blog_img}
-                          className="h-24 w-40"
+                          className="h-24  w-40"
                           alt="Related Blog"
                         />
                       </div>
