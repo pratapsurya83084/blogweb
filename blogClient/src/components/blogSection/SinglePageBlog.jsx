@@ -38,8 +38,13 @@ const SinglePageBlog = () => {
   const [allsavedpostid, setSavedblodids] = useState([]);
   // console.log(allsavedpostid);
   const [statusId, setStatusId] = useState(null);
-  // const [isSaved, setIsSaved] = useState(true);
-  // console.log(statusId);
+
+
+
+
+
+
+
 
   // Social media share links
   const shareLinks = {
@@ -117,107 +122,113 @@ const SinglePageBlog = () => {
     fetchInitialLikeStatus();
   }, []);
 
-  const blog_id = blogId;
-  // Function to handle saving the post
-  const user_id = localStorage.getItem("user_id");
 
+  useEffect(() => {
+    const savedStatus = localStorage.getItem(`saved_${blogId}`);
+    setIsSaved(savedStatus === "true");
+  }, [blogId]);
+
+  // Handle save action
   const handleSave = async () => {
-    setIsSaved(!isSaved); // Toggle saved state
- 
-    let user = localStorage.getItem("user_id");
+    const user = localStorage.getItem("user_id");
     if (user) {
-      const response = await axios.post(
-        "http://localhost/blogweb/backend/saved_blog_post.php",
-        { blog_id, user_id },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      // console.log(response.data);
-
-      if (response.data.message == "saved") {
-        Swal.fire({
-          title: "success !",
-          text: "Post "+response.data.message+"SucessFully",
-          icon: "success",
-          confirmButtonText: "OK",
-        });
-      } else {
-        Swal.fire({
-          title: "failed !",
-          text: response.data.message,
-          icon: "error",
-          confirmButtonText: "OK",
-        });
-      }
-
-      // console.log(response.data);
-    } else {
-      alert("Please log in to save the post.");
-      window.location.href = "/login";
-    }
-  };
-
-  // Handle unsave action
-
-  //  console.log(blogId,user_id);
-
-  const handleUnsave = async ( blogid) => {
-    try {
-    
-      // setIsSaved(!isSaved); // Toggle saved state optimistically
-      let user = localStorage.getItem("user_id");
-      if (user) {
+      try {
         const response = await axios.post(
-          "http://localhost/blogweb/backend/unsavePost.php",
-          { blog_id: blogid, user_id: user }, // Fix parameter order
+          "http://localhost/blogweb/backend/saved_blog_post.php",
+          { blog_id: blogId, user_id: user },
           {
             headers: {
               "Content-Type": "application/json",
             },
           }
         );
-        // console.log(response.data);
 
-        if (response.data.status === "success") {
+        if (response.data.message === "saved") {
           Swal.fire({
             title: "Success!",
-            text: response.data.message,
+            text: "Post saved successfully.",
             icon: "success",
             confirmButtonText: "OK",
           });
-          // console.log(response.data.status);  //success 
-          
+          setIsSaved(true); // Update state
+          localStorage.setItem(`saved_${blogId}`, "true"); // Update localStorage
         } else {
           Swal.fire({
-            title: "failed !",
+            title: "Failed!",
             text: response.data.message,
             icon: "error",
             confirmButtonText: "OK",
           });
-          setIsSaved(!isSaved); // Revert state if failed
         }
-      } else {
-        alert("Please log in to unsave the post.");
-        window.location.href = "/login";
+      } catch (error) {
+        console.error("Error saving post:", error.message);
+        Swal.fire({
+          title: "Error!",
+          text: "An error occurred. Please try again.",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
       }
-    } catch (error) {
-      console.error("Error unsaving post:", error.message);
-      alert("An error occurred. Please try again.");
-      setIsSaved(!isSaved); // Revert state in case of an error
+    } else {
+      alert("Please log in to save the post.");
+      window.location.href = "/login";
     }
   };
 
-  useEffect(() => {
-    // Optional: Pre-check if the post is saved or not (if needed)
-    const checkSavedStatus = async () => {
-      // Fetch the saved status from the backend or local state
-    };
 
-    checkSavedStatus();
-  }, []); // Runs only once when the component mounts
+ 
+  //  console.log(blogId,user_id);
+
+  // Handle unsave action
+  const handleUnsave = async () => {
+    const user = localStorage.getItem("user_id");
+    if (user) {
+      try {
+        const response = await axios.post(
+          "http://localhost/blogweb/backend/unsavePost.php",
+          { blog_id: blogId, user_id: user },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (response.data.status === "success") {
+          Swal.fire({
+            title: "Success!",
+            text: "Post unsaved successfully.",
+            icon: "success",
+            confirmButtonText: "OK",
+          });
+          setIsSaved(false); // Update state
+          localStorage.setItem(`saved_${blogId}`, "false"); // Update localStorage
+        } else {
+          Swal.fire({
+            title: "Failed!",
+            text: response.data.message,
+            icon: "error",
+            confirmButtonText: "OK",
+          });
+        }
+      } catch (error) {
+        console.error("Error unsaving post:", error.message);
+        Swal.fire({
+          title: "Error!",
+          text: "An error occurred. Please try again.",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      }
+    } else {
+      alert("Please log in to unsave the post.");
+      window.location.href = "/login";
+    }
+  };
+  useEffect(() => {
+    const savedStatus = localStorage.getItem(`saved_${blogId}`);
+    setIsSaved(savedStatus === "true");
+  }, [blogId]);
 
 
   const All_like_blog_post = async () => {
@@ -393,7 +404,7 @@ const SinglePageBlog = () => {
                         <FaShareAlt className="mr-2" />
                       </button>
 
-                      {statusId == 1 ? (
+                      {isSaved  ? (
                         <button
                           onClick={()=>handleUnsave(blogId)}
                           className="flex flex-col"
