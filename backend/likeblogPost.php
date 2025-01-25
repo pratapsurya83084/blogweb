@@ -1,6 +1,10 @@
 <?php
 ob_start();
 header("Content-Type: application/json");
+header("Access-Control-Allow-Origin: http://localhost:5173"); // Allow requests from your frontend's origin
+header("Access-Control-Allow-Methods: POST, OPTIONS"); // Allow POST and OPTIONS methods
+header("Access-Control-Allow-Headers: Content-Type, Authorization"); // Allow these headers
+header("Access-Control-Allow-Credentials: true"); 
 include_once('config/dbconnect.php');
 
 $data = json_decode(file_get_contents("php://input"), true);

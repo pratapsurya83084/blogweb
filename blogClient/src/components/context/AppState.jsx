@@ -74,7 +74,7 @@ const like_blog_post=async(post_id,user_id)=>{
   try {
     //fetch api
     const api = await axios.post(
-      "http://localhost/blogweb/backend/like_blog_post.php",
+      "http://localhost/blogweb/backend/likeblogPost.php",
       {post_id:post_id ,user_id:user_id} ,
       {
         headers: {

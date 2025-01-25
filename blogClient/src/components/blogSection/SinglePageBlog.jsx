@@ -6,11 +6,11 @@ import {
   FaWhatsapp,
   FaShareAlt,
   FaFacebook,
-
   FaBookmark,
 } from "react-icons/fa";
 import { useParams, Link } from "react-router-dom";
 import Layout from "../outlet/Layout";
+import Swal from "sweetalert2";
 import axios from "axios";
 import ContextApp from "../context/ContextApp";
 
@@ -35,20 +35,26 @@ const SinglePageBlog = () => {
 
   // share
   const [isOpen, setIsOpen] = useState(false);
-const [allsavedpostid,setSavedblodids]=useState([]);
-// console.log(allsavedpostid);
-const [statusId, setStatusId] = useState(null);
-console.log(statusId);
+  const [allsavedpostid, setSavedblodids] = useState([]);
+  // console.log(allsavedpostid);
+  const [statusId, setStatusId] = useState(null);
+  // const [isSaved, setIsSaved] = useState(true);
+  // console.log(statusId);
 
   // Social media share links
   const shareLinks = {
-    facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`,
-    twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}`,
-    whatsapp: `https://api.whatsapp.com/send?text=${encodeURIComponent(window.location.href)}`,
+    facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+      window.location.href
+    )}`,
+    twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(
+      window.location.href
+    )}`,
+    whatsapp: `https://api.whatsapp.com/send?text=${encodeURIComponent(
+      window.location.href
+    )}`,
   };
 
   const a = localStorage.getItem(`isLiked_${postid}_${userid}`);
-
 
   // filter liked user counts blog post specific
   const countLikes = allLikes.filter((likepost) => likepost.post_id == blogId);
@@ -65,7 +71,7 @@ console.log(statusId);
 
       const response = await like_blog_post(postId, userId);
       console.log(response);
-      
+
       if (response.like_status) {
         const updatedLikes =
           response.like_status === "added"
@@ -94,8 +100,8 @@ console.log(statusId);
         if (!userId) return;
 
         const response = await axios.get(
-          "http://localhost/blogweb/backend/user_liked_posts.php", // Endpoint to fetch liked posts
-          { user_id: userId } 
+          "http://localhost/blogweb/backend/likeblogPost.php", // Endpoint to fetch liked posts
+          { user_id: userId }
         );
 
         if (response.data?.likedPosts) {
@@ -111,73 +117,107 @@ console.log(statusId);
     fetchInitialLikeStatus();
   }, []);
 
- 
- const blog_id=blogId;
+  const blog_id = blogId;
   // Function to handle saving the post
   const user_id = localStorage.getItem("user_id");
-  const handleSave = async() => {
+
+  const handleSave = async () => {
     setIsSaved(!isSaved); // Toggle saved state
-    let user=localStorage.getItem("user_id");
-    if (user) {
-      const response = await axios.post('http://localhost/blogweb/backend/saved_blog_post.php',
-        { blog_id,user_id} ,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        
-      });
-      // console.log(response.data);
-      
-     
-
-      if(response.data.message=='saved'){
-          alert("Blog saved successfully");
-      }else{
-        alert("Blog already saved");
-      }
-  
-      console.log(response.data);
-      
-    }else{
-      alert("Please log in to save the post.");
-      window.location.href = "/login";
-    }
-    }
-
-
-  // Handle unsave action
-
  
-  const handleUnsave = async () => {
-    try {
+    let user = localStorage.getItem("user_id");
+    if (user) {
       const response = await axios.post(
-        'http://localhost/blogweb/backend/unsavedblogpost.php',
-        {
-          blog_id: blogId, // Replace with the blogId to delete
-          user_id: user_id,  // Replace with the logged-in user's id
-        },
+        "http://localhost/blogweb/backend/saved_blog_post.php",
+        { blog_id, user_id },
         {
           headers: {
             "Content-Type": "application/json",
           },
         }
       );
-  
-      if (response.data.status === "success") {
-        console.log(response.data.message); // "Post unsaved successfully."
+      // console.log(response.data);
+
+      if (response.data.message == "saved") {
+        Swal.fire({
+          title: "success !",
+          text: "Post "+response.data.message+"SucessFully",
+          icon: "success",
+          confirmButtonText: "OK",
+        });
       } else {
-        console.error(response.data.message); // Error messages based on response
+        Swal.fire({
+          title: "failed !",
+          text: response.data.message,
+          icon: "error",
+          confirmButtonText: "OK",
+        });
       }
-    } catch (error) {
-      console.error("Error while unsaving the post:", error);
+
+      // console.log(response.data);
+    } else {
+      alert("Please log in to save the post.");
+      window.location.href = "/login";
     }
   };
-  
-  // Example usage
-  handleUnsave();
-  
 
+  // Handle unsave action
+
+  //  console.log(blogId,user_id);
+
+  const handleUnsave = async ( blogid) => {
+    try {
+    
+      // setIsSaved(!isSaved); // Toggle saved state optimistically
+      let user = localStorage.getItem("user_id");
+      if (user) {
+        const response = await axios.post(
+          "http://localhost/blogweb/backend/unsavePost.php",
+          { blog_id: blogid, user_id: user }, // Fix parameter order
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        // console.log(response.data);
+
+        if (response.data.status === "success") {
+          Swal.fire({
+            title: "Success!",
+            text: response.data.message,
+            icon: "success",
+            confirmButtonText: "OK",
+          });
+          // console.log(response.data.status);  //success 
+          
+        } else {
+          Swal.fire({
+            title: "failed !",
+            text: response.data.message,
+            icon: "error",
+            confirmButtonText: "OK",
+          });
+          setIsSaved(!isSaved); // Revert state if failed
+        }
+      } else {
+        alert("Please log in to unsave the post.");
+        window.location.href = "/login";
+      }
+    } catch (error) {
+      console.error("Error unsaving post:", error.message);
+      alert("An error occurred. Please try again.");
+      setIsSaved(!isSaved); // Revert state in case of an error
+    }
+  };
+
+  useEffect(() => {
+    // Optional: Pre-check if the post is saved or not (if needed)
+    const checkSavedStatus = async () => {
+      // Fetch the saved status from the backend or local state
+    };
+
+    checkSavedStatus();
+  }, []); // Runs only once when the component mounts
 
 
   const All_like_blog_post = async () => {
@@ -252,46 +292,44 @@ console.log(statusId);
   };
 
   //all savedpost
- 
-   const allSavedPosts = (async()=>{
-     const api=await axios.get('http://localhost/blogweb/backend/getAllsavedPost.php',
-       {
-         headers: {
-           "Content-Type": "application/json",
-         },
-       }
-     )
-//  console.log("all saved post is:",api.data.data);
- 
-setSavedblodids(api.data.data)
-   })
 
-  
- useEffect(()=>{
-  allSavedPosts();
- },[])
+  const allSavedPosts = async () => {
+    const api = await axios.get(
+      "http://localhost/blogweb/backend/getAllsavedPost.php",
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    //  console.log("all saved post is:",api.data.data);
 
+    setSavedblodids(api.data.data);
+  };
 
-//fetch this blog id which user currently view blog
-useEffect(() => {
-  const fetchid = allsavedpostid.filter(
-    (ids) =>
-      ids.blog_id == blogId && ids.user_id == localStorage.getItem("user_id")
-  );
+  useEffect(() => {
+    allSavedPosts();
+  }, []);
 
-  if (fetchid.length > 0) {
-    const savedStatus = fetchid[0].saved_status;
+  //fetch this blog id which user currently view blog
+  useEffect(() => {
+    const fetchid = allsavedpostid.filter(
+      (ids) =>
+        ids.blog_id == blogId && ids.user_id == localStorage.getItem("user_id")
+    );
 
-    if (savedStatus !== statusId) {
-      setStatusId(savedStatus); // Update state only if it changes
+    if (fetchid.length > 0) {
+      const savedStatus = fetchid[0].saved_status;
+
+      if (savedStatus !== statusId) {
+        setStatusId(savedStatus); // Update state only if it changes
+      }
+    } else {
+      if (statusId !== null) {
+        setStatusId(null); // Clear state if no match is found
+      }
     }
-  } else {
-    if (statusId !== null) {
-      setStatusId(null); // Clear state if no match is found
-    }
-  }
-}, [allsavedpostid, blogId, statusId]); 
-
+  }, [allsavedpostid, blogId, statusId]);
 
   return (
     <Layout>
@@ -355,59 +393,63 @@ useEffect(() => {
                         <FaShareAlt className="mr-2" />
                       </button>
 
-                    
-
-                      {statusId== 1 ? (
-                        <button onClick={handleUnsave} className="flex flex-col">
-                          <FaBookmark className="ml-4"/> Unsave
+                      {statusId == 1 ? (
+                        <button
+                          onClick={()=>handleUnsave(blogId)}
+                          className="flex flex-col"
+                        >
+                          <FaBookmark className="ml-4" /> Unsave
                         </button>
                       ) : (
                         <button onClick={handleSave}>
-                          <FaBookmark  className="ml-2"/> Save
+                          <FaBookmark className="ml-2" /> Save
                         </button>
                       )}
+
+
+
                     </div>
-                   
-                      {/* share option Box */}
-                      {isOpen && (
-        <div className="absolute left-10 mt-2 w-40 bg-white border rounded shadow-lg">
-          <ul className="flex flex-col p-4">
-            <li className="flex items-center">
-              <FaFacebook className="text-blue-600 mr-2 h-10 w-40" />
-              <a
-                href={shareLinks.facebook}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block px-4 py-2 hover:bg-gray-100 w-full"
-              >
-                Facebook
-              </a>
-            </li>
-            <li className="flex items-center">
-              <FaTwitter className="text-blue-400 mr-2 h-6 w-8 right-4" />
-              <a
-                href={shareLinks.twitter}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block px-4 py-2 hover:bg-gray-100 w-full"
-              >
-                Twitter
-              </a>
-            </li>
-            <li className="flex items-center">
-              <FaWhatsapp className="text-green-500 mr-2 h-10" />
-              <a
-                href={shareLinks.whatsapp}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block px-4 py-2 hover:bg-gray-100 w-full"
-              >
-                WhatsApp
-              </a>
-            </li>
-          </ul>
-        </div>
-      )}
+
+                    {/* share option Box */}
+                    {isOpen && (
+                      <div className="absolute left- mt-2 w-40 bg-white border rounded shadow-lg">
+                        <ul className="flex flex-col p-4">
+                          <li className="flex items-center">
+                            <FaFacebook className="text-blue-600 mr-2 h-10 w-40" />
+                            <a
+                              href={shareLinks.facebook}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="block px-4 py-2 hover:bg-gray-100 w-full"
+                            >
+                              Facebook
+                            </a>
+                          </li>
+                          <li className="flex items-center">
+                            <FaTwitter className="text-blue-400 mr-2 h-6 w-8 right-4" />
+                            <a
+                              href={shareLinks.twitter}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="block px-4 py-2 hover:bg-gray-100 w-full"
+                            >
+                              Twitter
+                            </a>
+                          </li>
+                          <li className="flex items-center">
+                            <FaWhatsapp className="text-green-500 mr-2 h-10" />
+                            <a
+                              href={shareLinks.whatsapp}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="block px-4 py-2 hover:bg-gray-100 w-full"
+                            >
+                              WhatsApp
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    )}
                   </div>
                 );
               })}
