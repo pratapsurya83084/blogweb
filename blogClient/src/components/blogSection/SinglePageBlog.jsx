@@ -23,27 +23,35 @@ const SinglePageBlog = () => {
 
   const { id } = useParams();
   const blogId = Number(id); // Convert to number
+  
   const [blogdata, setblogs] = useState([]);
-  const [likes, setLikes] = useState(0); // Total likes for the post
-  const [isLiked, setIsLiked] = useState(false); // Whether the user has liked the post
-
-  const [allLikes, setLikesALL] = useState([]);
-  const [buttoncolor, setbuttoncolor] = useState();
   const [userLikedBlogs, setUserLikedBlogs] = useState([]);
+  const [isLiked, setIsLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(0);
+  const [buttoncolor, setbuttoncolor] = useState();
+  // const [userLikedBlogs, setUserLikedBlogs] = useState([]);
   const [userid, setuserid] = useState();
   const [postid, setpostid] = useState();
+const [likeall,setLikesALL]=useState([])
+// console.log(likeall);
+// console.log(likeCount)
 
   // share
   const [isOpen, setIsOpen] = useState(false);
   const [allsavedpostid, setSavedblodids] = useState([]);
-  // console.log(allsavedpostid);
+  console.log(blogdata);
   const [statusId, setStatusId] = useState(null);
 
 
+console.log(likeall);
 
 
 
+  const isLikedOnCurrentPage = likeall.filter((item) => item.post_id == blogId);
+   console.log(isLikedOnCurrentPage.length);
+   
 
+   const getuserid=localStorage.getItem("user_id")
 
 
   // Social media share links
@@ -59,12 +67,8 @@ const SinglePageBlog = () => {
     )}`,
   };
     
-  const a = localStorage.getItem(`isLiked_${postid}_${userid}`);
 
-  // filterliked user counts blog post specific
-  const countLikes = allLikes.filter((likepost) => likepost.post_id == blogId);
-  // console.log(countLikes.length);
-
+  // Handle like toggle
   const handleLike = async (postId) => {
     try {
       const userId = localStorage.getItem("user_id");
@@ -74,45 +78,93 @@ const SinglePageBlog = () => {
         return;
       }
 
-      const response = await like_blog_post(postId, userId);
-      console.log(response);
+      // Fetch the current like count from localStorage
+      let currentLikeCount = parseInt(localStorage.getItem(`${userId}_likeCount_${postId}`)) || 0;
 
-      if (response.like_status) {
-        const updatedLikes =
-          response.like_status === "added"
-            ? [...userLikedBlogs, postId]
-            : userLikedBlogs.filter((id) => id !== postId);
-        setUserLikedBlogs(updatedLikes);
-        setuserid(userId);
-        setpostid(postId);
-        localStorage.setItem(
-          `isLiked_${postId}_${userId}`,
-          response.like_status === "added"
-        );
-        let a = localStorage.getItem(`isLiked_${postId}_${userId}`);
-        console.log("the current id post:", a);
+      // Fetch the like status for the current post
+      const currentLikeStatus = localStorage.getItem(`isLiked_${postId}_${userId}`) === "true";
+
+      // API request to toggle like
+      const response = await axios.post(
+        "http://localhost/blogweb/backend/likeblogPost.php",
+        {
+          user_id: userId,
+          post_id: postId,
+        }
+      );
+
+      if (response.data.like_status) {
+        const isLikedNow = response.data.like_status === "added";
+
+        // Update like count and like status if toggled
+        if (isLikedNow !== currentLikeStatus) {
+          const newCount = isLikedNow ? currentLikeCount + 1 : Math.max(0, currentLikeCount - 1);
+
+          // Update localStorage
+          localStorage.setItem(`${userId}_likeCount_${postId}`, newCount);
+          localStorage.setItem(`isLiked_${postId}_${userId}`, isLikedNow.toString());
+
+          // Update React state
+          setLikeCount(newCount);
+          setIsLiked(isLikedNow);
+        }
       }
     } catch (error) {
       alert("An error occurred while processing your like. Please try again.");
+      console.error(error);
     }
   };
 
- 
+  // Load initial like count and status from localStorage
+  useEffect(() => {
+    const userId = localStorage.getItem("user_id");
+    if (userId) {
+      const savedLikeCount = parseInt(localStorage.getItem(`${userId}_likeCount_${blogId}`)) || 0;
+      const savedIsLiked = localStorage.getItem(`isLiked_${blogId}_${userId}`) === "true";
+
+      setLikeCount(savedLikeCount);
+      setIsLiked(savedIsLiked);
+    }
+  }, [blogId]);
+
+
+  useEffect(() => {
+    const fetchLikeCount = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost/blogweb/backend/getBlogLikes.php?post_id=${blogId}`
+        );
+        setLikeCount(response.data.like_count || 0); // Initialize count
+      } catch (error) {
+        console.error("Error fetching like count:", error);
+      }
+    };
+  
+    if (blogId) fetchLikeCount();
+  }, [blogId]);
+  
+
+
+  // Load initial like status from localStorage
+  useEffect(() => {
+    const savedStatus = localStorage.getItem(`isLiked_${blogId}_${getuserid}`);
+    setIsLiked(savedStatus === "true");
+  }, [blogId, getuserid]);
+
+  // Fetch initial liked blogs and update the state
   useEffect(() => {
     const fetchInitialLikeStatus = async () => {
       try {
-        const userId = localStorage.getItem("user_id");
-        if (!userId) return;
+        if (!getuserid) return;
 
         const response = await axios.get(
-          "http://localhost/blogweb/backend/likeblogPost.php", // Endpoint to fetch liked posts
-          { user_id: userId }
+          `http://localhost/blogweb/backend/getUserLikedPosts.php?user_id=${getuserid}`
         );
 
         if (response.data?.likedPosts) {
-          setUserLikedBlogs(
-            response.data.likedPosts.map((post) => post.post_id)
-          );
+          const likedPostIds = response.data.likedPosts.map((post) => post.post_id);
+          setUserLikedBlogs(likedPostIds);
+          setIsLiked(likedPostIds.includes(blogId));
         }
       } catch (error) {
         console.error("Error fetching user liked blogs:", error);
@@ -120,10 +172,88 @@ const SinglePageBlog = () => {
     };
 
     fetchInitialLikeStatus();
+  }, [blogId, getuserid]);
+
+  const All_like_blog_post = async () => {
+    try {
+      //fetch api
+      const api = await axios.get(
+        "http://localhost/blogweb/backend/all_blog_likes_post.php",
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(api.data);
+
+      setLikesALL(api.data.Likes);
+    } catch (error) {
+      console.log("something  went wrong :", error);
+    }
+  };
+
+  useEffect(() => {
+    All_like_blog_post();
+  }, []);                    // Dependency array to avoid unnecessary re-renders
+
+  // Fetch all blogs
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost/blogweb/backend/allblogs.php"
+        );
+        setFilteredBlogs(response.data.blogs);
+      } catch (error) {
+        console.error("Error fetching blogs", error);
+      }
+    };
+
+    fetchBlogs();
   }, []);
 
+  useEffect(() => {
+    if (!blogs.length || !blogId) return; // Ensure blogs and blogId are available
+
+    // Filter blogs by ID
+    const idwise_blogpost = blogs.filter((blog) => blog.id == blogId);
+    setblogs(idwise_blogpost);
+
+    // Check if a blog post is found
+    if (idwise_blogpost.length > 0) {
+      // Filter blogs by category
+      const relatedBlogs = blogs.filter(
+        (blog) =>
+          blog.blog_category.toLowerCase() ===
+          idwise_blogpost[0].blog_category.toLowerCase()
+      );
+      // console.log("Related Blogs:", relatedBlogs);
+
+      if (relatedBlogs.length > 0) {
+        setblogs(relatedBlogs);
+      } else {
+        console.log("No related blogs found in the same category.");
+      }
+    } else {
+      console.log("No blog found with the given ID.");
+    }
+  }, [blogs, blogId]);
+  
+
+
+
+
+
+
+
+
+
+
+
+
 //immidiatley update saved status of icon
-const getuserid=localStorage.getItem("user_id")
+
   useEffect(() => {
     const savedStatus = localStorage.getItem(`${getuserid}_saved_${blogId}`);
     setIsSaved(savedStatus === "true");
@@ -229,76 +359,17 @@ const getuserid=localStorage.getItem("user_id")
   
 
 
-  const All_like_blog_post = async () => {
-    try {
-      //fetch api
-      const api = await axios.get(
-        "http://localhost/blogweb/backend/all_blog_likes_post.php",
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      // console.log(api.data);
 
-      setLikesALL(api.data.Likes);
-    } catch (error) {
-      console.log("something  went wrong :", error);
-    }
-  };
-
-  useEffect(() => {
-    All_like_blog_post();
-  }, []); // Dependency array to avoid unnecessary re-renders
-
-  // Fetch all blogs
-  useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost/blogweb/backend/allblogs.php"
-        );
-        setFilteredBlogs(response.data.blogs);
-      } catch (error) {
-        console.error("Error fetching blogs", error);
-      }
-    };
-
-    fetchBlogs();
-  }, []);
-
-  useEffect(() => {
-    if (!blogs.length || !blogId) return; // Ensure blogs and blogId are available
-
-    // Filter blogs by ID
-    const idwise_blogpost = blogs.filter((blog) => blog.id == blogId);
-    setblogs(idwise_blogpost);
-
-    // Check if a blog post is found
-    if (idwise_blogpost.length > 0) {
-      // Filter blogs by category
-      const relatedBlogs = blogs.filter(
-        (blog) =>
-          blog.blog_category.toLowerCase() ===
-          idwise_blogpost[0].blog_category.toLowerCase()
-      );
-      // console.log("Related Blogs:", relatedBlogs);
-
-      if (relatedBlogs.length > 0) {
-        setblogs(relatedBlogs);
-      } else {
-        console.log("No related blogs found in the same category.");
-      }
-    } else {
-      console.log("No blog found with the given ID.");
-    }
-  }, [blogs, blogId]);
 
   // share link via whatsapp ,
   const shareblogLink = () => {
     setIsOpen(!isOpen);
   };
+
+
+
+
+
 
   //all savedpost
 
@@ -386,14 +457,15 @@ const getuserid=localStorage.getItem("user_id")
                     <div className="flex justify-start items-center gap-6 mt-6">
                       {/* like button */}
                       <button
-                        className={`flex items-center ${
-                          postid == blogId && a ? "text-red-500" : "text-black"
-                        }`}
-                        onClick={() => handleLike(blogId)}
-                      >
-                        <FaThumbsUp className="mr-2" />
-                        <span>{countLikes.length}</span>
-                      </button>
+        onClick={() => handleLike(blogId)}
+        className={`px-4  py-2 rounded ${
+          isLiked ? " text-red-500" : " text-black"
+        }`}
+      > <FaThumbsUp/>
+       {likeCount}
+
+        {/* {isLiked ? <FaThumbsDown/> : <FaThumbsUp/> }89 */}
+      </button>
 
                       <button
                         className="flex items-center text-gray-700 hover:text-green-500"
