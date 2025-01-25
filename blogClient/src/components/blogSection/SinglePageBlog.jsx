@@ -58,10 +58,10 @@ const SinglePageBlog = () => {
       window.location.href
     )}`,
   };
-
+    
   const a = localStorage.getItem(`isLiked_${postid}_${userid}`);
 
-  // filter liked user counts blog post specific
+  // filterliked user counts blog post specific
   const countLikes = allLikes.filter((likepost) => likepost.post_id == blogId);
   // console.log(countLikes.length);
 
@@ -97,7 +97,7 @@ const SinglePageBlog = () => {
     }
   };
 
-  // Initial like status fetch without using localStorage
+ 
   useEffect(() => {
     const fetchInitialLikeStatus = async () => {
       try {
@@ -122,13 +122,14 @@ const SinglePageBlog = () => {
     fetchInitialLikeStatus();
   }, []);
 
-
+//immidiatley update saved status of icon
+const getuserid=localStorage.getItem("user_id")
   useEffect(() => {
-    const savedStatus = localStorage.getItem(`saved_${blogId}`);
+    const savedStatus = localStorage.getItem(`${getuserid}_saved_${blogId}`);
     setIsSaved(savedStatus === "true");
   }, [blogId]);
 
-  // Handle save action
+  //  save action
   const handleSave = async () => {
     const user = localStorage.getItem("user_id");
     if (user) {
@@ -151,7 +152,7 @@ const SinglePageBlog = () => {
             confirmButtonText: "OK",
           });
           setIsSaved(true); // Update state
-          localStorage.setItem(`saved_${blogId}`, "true"); // Update localStorage
+          localStorage.setItem(`${user}_saved_${blogId}`, "true"); // Update localStorage
         } else {
           Swal.fire({
             title: "Failed!",
@@ -202,7 +203,7 @@ const SinglePageBlog = () => {
             confirmButtonText: "OK",
           });
           setIsSaved(false); // Update state
-          localStorage.setItem(`saved_${blogId}`, "false"); // Update localStorage
+          localStorage.setItem(`${user}_saved_${blogId}`, "false"); // Update localStorage
         } else {
           Swal.fire({
             title: "Failed!",
@@ -225,10 +226,7 @@ const SinglePageBlog = () => {
       window.location.href = "/login";
     }
   };
-  useEffect(() => {
-    const savedStatus = localStorage.getItem(`saved_${blogId}`);
-    setIsSaved(savedStatus === "true");
-  }, [blogId]);
+  
 
 
   const All_like_blog_post = async () => {
