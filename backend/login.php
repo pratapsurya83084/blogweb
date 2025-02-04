@@ -37,7 +37,7 @@ if ($execute) {
                 "message" => "User logged in successfully",
                 "success" => true,
                 "id"=>$user['id'],
-                "user" => $user['username'],
+                "user" => $user,
                 "session_id" => session_id()  //
             ]);
         

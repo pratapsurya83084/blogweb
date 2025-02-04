@@ -41,3 +41,4 @@ try {
 
 $conn->close(); // Close the database connection
 ob_end_flush();
+?>

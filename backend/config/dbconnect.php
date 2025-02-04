@@ -1,5 +1,9 @@
 <?php
-
+header("Content-Type: application/json");
+header("Access-Control-Allow-Origin: http://localhost:5173"); // Allow requests from your frontend's origin
+header("Access-Control-Allow-Methods: POST, OPTIONS"); // Allow POST and OPTIONS methods
+header("Access-Control-Allow-Headers: Content-Type, Authorization"); // Allow these headers
+header("Access-Control-Allow-Credentials: true");
 $servername = "localhost"; // Your database host, usually localhost
 $username = "root"; // Your database username
 $password = ""; // Default for XAMPP

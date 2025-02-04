@@ -1,26 +1,31 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {  FaTrash } from "react-icons/fa";
+import ContextApp from '../context/ContextApp';
 
-const users = [
-  {
-    Username: "pratap",
-    email: "pratap@example.com",
-  },
-  {
-    Username: "xyz",
-    email: "xyz@example.com",
-  },
-];
+
 const Users = () => {
+  const {allUsers,DeleteUser}=useContext(ContextApp);
+  const [Users,SetAllusers]=useState(allUsers);
+  // console.log(Users);
+
+
+  
 const [searchTerm,SetSearchTerm]=useState("")
   // console.log(searchTerm);
   
-const filterdUser=users.filter((arr)=>
-  arr.Username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+const filterdUser=allUsers.filter((arr)=>
+  arr.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
 arr.email.toLowerCase().includes(searchTerm.toLowerCase())
 );
 
+//delete user 
+const deleteUser=async(id)=>{
+  // console.log("id........"+id);
+  //call api delteuser using id passed
+ let a=await DeleteUser(id)
+console.log(a)
 
+}
 
   return (
     <div>
@@ -64,18 +69,15 @@ arr.email.toLowerCase().includes(searchTerm.toLowerCase())
             {index + 1}
           </td>
           <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-            {item.Username}
+            {item.username}
           </td>
           <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
             {item.email}
           </td>
           <td className="text-center px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-            <button
-              className="text-red-600 p-1 rounded px-3 "
-              onClick={() => handleDelete(item.id)} // Call handleDelete with the item's id
-            >
-             <FaTrash/>
-            </button>
+            
+             <FaTrash className='text-red-600 ' onClick={()=>deleteUser(item.id)}/>
+           
           </td>
         </tr>
       ))}
