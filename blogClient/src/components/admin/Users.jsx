@@ -1,19 +1,48 @@
 import React, { useContext, useEffect, useState } from 'react'
 import {  FaTrash } from "react-icons/fa";
 import ContextApp from '../context/ContextApp';
-
-
+import Swal from "sweetalert2";
+import axios from 'axios';
 const Users = () => {
-  const {allUsers,DeleteUser}=useContext(ContextApp);
-  const [Users,SetAllusers]=useState(allUsers);
-  // console.log(Users);
+  const {DeleteUser}=useContext(ContextApp);
+  const [Users,SetAllusers]=useState([]);
+// console.log(Users);
 
+  const allUser = async () => {
+    try {
+      //fetch api
+      const api = await axios.get(
+        "http://localhost/blogweb/backend/allUser.php",
+
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      // console.log(api.data.users);
+      
+       if (api.data.users) {
+        SetAllusers(api.data.users);
+       }else{
+        SetAllusers([]);
+       }
+     
+
+    } catch (error) {
+      console.log("something  went wrong :", error);
+    }
+  };
+
+  useEffect(()=>{
+    allUser();
+  },[]);
 
   
 const [searchTerm,SetSearchTerm]=useState("")
   // console.log(searchTerm);
   
-const filterdUser=allUsers.filter((arr)=>
+const filterdUser=Users.filter((arr)=>
   arr.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
 arr.email.toLowerCase().includes(searchTerm.toLowerCase())
 );
@@ -24,6 +53,14 @@ const deleteUser=async(id)=>{
   //call api delteuser using id passed
  let a=await DeleteUser(id)
 console.log(a)
+if (a.success==true) {
+    Swal.fire({
+          title: "Success!",
+          text: "User Deleted successfully",
+          icon: "success",
+          confirmButtonText: "OK",
+        });
+}
 
 }
 

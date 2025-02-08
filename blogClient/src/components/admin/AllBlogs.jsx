@@ -1,30 +1,31 @@
-import React from "react";
+import React, { useEffect,useState } from "react";
 import { FaEye, FaPencilAlt, FaTrash } from "react-icons/fa";
+import axios from 'axios';
+import {Link}  from 'react-router-dom'
 
 const AllBlogs = () => {
-  const blogs = [
-    {
-      id: 1,
-      title: "React Basics",
-      subtitle: "Introduction to React",
-      category: "Technology",
-      img:"https://th.bing.com/th/id/OIP.0HvSu5ua_aiSkqbIfLU8lwHaE8?rs=1&pid=ImgDetMain"
-    },
-    {
-      id: 2,
-      title: "Understanding JavaScript",
-      subtitle: "Deep Dive into JavaScript",
-      category: "Programming",
-      img:"https://th.bing.com/th/id/OIP.-HHfqZ3bGRsZbIh8uZVu2AHaD4?rs=1&pid=ImgDetMain"
-    },
-    {
-      id: 3,
-      title: "CSS for Beginners",
-      subtitle: "Getting Started with CSS",
-      category: "Design",
-      img:"https://www.zdnet.com/a/hub/i/r/2021/05/04/e32662ed-ce31-4ad5-8408-d25becca4b6f/resize/1200xauto/c5d4fa5a6a3722dd3ed3539a77c2df79/shutterstock-1893752428.jpg"
-    },
-  ];
+
+  const [blogData, setFilteredBlogs] = useState([]);
+console.log(blogData.id);
+
+  const HomeBlogDisplay = async () => {
+    try {
+      const response = await axios.get(
+        "  http://localhost/blogweb/backend/allblogs.php"
+      );
+      // console.log(response.data)
+      setFilteredBlogs(response.data.blogs);
+    
+    } catch (error) {
+      console.error("Error fetching blogs", error);
+    }
+  };
+
+
+
+useEffect(()=>{
+HomeBlogDisplay();
+},[])
 
   // Handle actions (just for demo, can be customized later)
   const handleAction = (action, blogId) => {
@@ -48,29 +49,31 @@ const AllBlogs = () => {
         <th className="p-2 text-left text-xs md:text-">Blog Title</th>
         <th className="p-2 text-left text-xs md:text-">Blog Subtitle</th>
         <th className="p-2 text-left text-xs md:text-">Category</th>
+        <th className="p-2 text-left text-xs md:text-">blog_author</th>
         <th className="p-2 text-left text-xs md:text-">Image</th>
         <th className="p-2 text-left text-xs md:text-">Action</th>
       </tr>
     </thead>
 
     <tbody>
-      {blogs.map((blog, index) => (
+      {blogData.map((blog, index) => (
         <tr key={blog.id} className="border-t">
           <td className="p-2 text-xs md:text-xs lg:text-">{index + 1}</td>
-          <td className="p- text-xs md:text-xs lg:text-md">{blog.title}</td>
-          <td className="p-2 text-xs md:text-xs lg:text-md">{blog.subtitle}</td>
-          <td className="p-2 text-xs md:text-xs lg:text-md">{blog.category}</td>
+          <td className="p- text-xs md:text-xs lg:text-md">{blog.blog_title
+          }</td>
+          <td className="p-2 text-xs md:text-xs lg:text-md">{blog.blog_subtitle}</td>
+          <td className="p-2 text-xs md:text-xs lg:text-md">{blog.blog_category}</td>
+          <td className="p-2 text-xs md:text-xs lg:text-md">{blog.blog_author}</td>
           <td className="p-2  ">
-            <img className="h-6 w-6 lg:h-14 lg:w-14" src={blog.img} alt="" />
+            <img className="h-6 w-6 lg:h-14 lg:w-14" src={blog.blog_img} alt="" />
           </td>
           <td className="p-3 flex space-x-2">
             {/* View Icon */}
-            <button
-              onClick={() => handleAction("View", blog.id)}
-              className="bg- p-2 rounded-md text-xs md:text-"
-            >
-              <FaEye className=" h-5" />
-            </button>
+            <Link to={`/singlepage/${blog.id}`}>
+          
+            <FaEye className=" h-5" />
+          
+            </Link>
             {/* Update Icon */}
             <button
               onClick={() => handleAction("Update", blog.id)}

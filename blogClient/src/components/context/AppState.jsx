@@ -5,7 +5,9 @@ import axios from "axios";
 const AppState = ({ children }) => {
   const [blogs, setblogs] = useState();
   const [blogData, setFilteredBlogs] = useState([]);
-  const [allUsers, setUsersAll] = useState();
+  const [allUser, setUsersAll] = useState();
+
+  
   //register user
   const registerUser = async ({ userData }) => {
     const response = await axios.post(
@@ -82,24 +84,24 @@ const AppState = ({ children }) => {
   };
 
   //get all user
-  const allUser = async () => {
-    try {
-      //fetch api
-      const api = await axios.get(
-        "http://localhost/blogweb/backend/allUser.php",
+  // const allUsers = async () => {
+  //   try {
+  //     //fetch api
+  //     const api = await axios.get(
+  //       "http://localhost/blogweb/backend/allUser.php",
 
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      // console.log(api.data);
-      setUsersAll(api.data.users);
-    } catch (error) {
-      console.log("something  went wrong :", error);
-    }
-  };
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     );
+  //     // console.log(api.data);
+  //     // setUsersAll(api.data.users);
+  //   } catch (error) {
+  //     console.log("something  went wrong :", error);
+  //   }
+  // };
 
   //delete User by idwise
   const DeleteUser = async (id) => {
@@ -114,10 +116,7 @@ const AppState = ({ children }) => {
     }
   };
   
-  useEffect(() => {
-    allUser();
 
-  }, []);
 
   return (
     <ContextApp.Provider
@@ -127,7 +126,7 @@ const AppState = ({ children }) => {
         blogs,
         blogData,
         like_blog_post,
-        allUsers,
+        // allUsers,
         DeleteUser
       }}
     >
