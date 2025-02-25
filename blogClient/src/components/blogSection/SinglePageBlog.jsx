@@ -13,7 +13,7 @@ import Layout from "../outlet/Layout";
 import Swal from "sweetalert2";
 import axios from "axios";
 import ContextApp from "../context/ContextApp";
-
+import UserComment  from '../user/UserComment';
 const SinglePageBlog = () => {
   const { like_blog_post } = useContext(ContextApp);
 // console.log(like_blog_post);
@@ -529,7 +529,16 @@ console.log(likeCount)
                   </div>
                 );
               })}
+
+              
+
+     <div>
+     <UserComment/>
+     </div>
           </div>
+
+
+
 
           {/* Related Blogs */}
           <div className="hidden lg:flex flex-col w-full lg:w-auto   mt-8 lg:mt-0 bg-white shadow-lg rounded-lg p-6">
