@@ -2,15 +2,17 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
  const name=localStorage.getItem('username')
- console.log(name);
+//  console.log(name);
  
   const handleLogout = () => {
     // Remove session ID from localStorage
     localStorage.removeItem("sessionId");
     localStorage.removeItem("user_id");
+    localStorage.removeItem("email")
     // Redirect to the login page
     navigate("/login");
   };
@@ -43,7 +45,7 @@ const Navbar = () => {
             </Link>
 
             {
-              localStorage.getItem("email")=="pratap123@gmail.com"? 
+              localStorage.getItem("email")=="admin@gmail.com"? 
               <Link to="/admin" className="block hover:text-purple-400">
               Admin
             </Link>
@@ -113,7 +115,7 @@ const Navbar = () => {
                 Contact
               </Link>
               {
-              localStorage.getItem("email")=="pratap123@gmail.com"? 
+              localStorage.getItem("email")=="admin@gmail.com"? 
               <Link to="/admin" className="block hover:text-purple-400">
               Admin
             </Link>

@@ -16,6 +16,7 @@ import ContextApp from "../context/ContextApp";
 
 const SinglePageBlog = () => {
   const { like_blog_post } = useContext(ContextApp);
+// console.log(like_blog_post);
 
   const [isSaved, setIsSaved] = useState(false);
 
@@ -27,28 +28,31 @@ const SinglePageBlog = () => {
   const [blogdata, setblogs] = useState([]);
   const [userLikedBlogs, setUserLikedBlogs] = useState([]);
   const [isLiked, setIsLiked] = useState(false);
+  const [likeall,setLikesALL]=useState([])
   const [likeCount, setLikeCount] = useState(0);
   const [buttoncolor, setbuttoncolor] = useState();
   // const [userLikedBlogs, setUserLikedBlogs] = useState([]);
   const [userid, setuserid] = useState();
   const [postid, setpostid] = useState();
-const [likeall,setLikesALL]=useState([])
+
 // console.log(likeall);
-// console.log(likeCount)
+console.log(likeCount)
 
   // share
   const [isOpen, setIsOpen] = useState(false);
   const [allsavedpostid, setSavedblodids] = useState([]);
-  console.log(blogdata);
+  // console.log(blogdata);
   const [statusId, setStatusId] = useState(null);
 
 
-console.log(likeall);
+// console.log(likeall);
 
 
 
+// useEffect(async()=>{
   const isLikedOnCurrentPage = likeall.filter((item) => item.post_id == blogId);
-   console.log(isLikedOnCurrentPage.length);
+  //  console.log(isLikedOnCurrentPage.length);
+// },[])
    
 
    const getuserid=localStorage.getItem("user_id")
@@ -83,6 +87,7 @@ console.log(likeall);
 
       // Fetch the like status for the current post
       const currentLikeStatus = localStorage.getItem(`isLiked_${postId}_${userId}`) === "true";
+// console.log(currentLikeCount);
 
       // API request to toggle like
       const response = await axios.post(
@@ -114,6 +119,8 @@ console.log(likeall);
       console.error(error);
     }
   };
+
+
 
   // Load initial like count and status from localStorage
   useEffect(() => {
@@ -245,13 +252,6 @@ console.log(likeall);
 
 
 
-
-
-
-
-
-
-
 //immidiatley update saved status of icon
 
   useEffect(() => {
@@ -359,15 +359,10 @@ console.log(likeall);
   
 
 
-
-
   // share link via whatsapp ,
   const shareblogLink = () => {
     setIsOpen(!isOpen);
   };
-
-
-
 
 
 
@@ -462,9 +457,12 @@ console.log(likeall);
           isLiked ? " text-red-500" : " text-black"
         }`}
       > <FaThumbsUp/>
-       {likeCount}
-
-        {/* {isLiked ? <FaThumbsDown/> : <FaThumbsUp/> }89 */}
+      {  (isLikedOnCurrentPage.length+likeCount)
+      // isLikedOnCurrentPage.length+1
+       } 
+      {/* {likeCount} */}
+       {/* {( likeCount? isLikedOnCurrentPage.length :isLikedOnCurrentPage.length  ) }  */}
+     
       </button>
 
                       <button
@@ -486,9 +484,6 @@ console.log(likeall);
                           <FaBookmark className="ml-2" /> Save
                         </button>
                       )}
-
-
-
                     </div>
 
                     {/* share option Box */}

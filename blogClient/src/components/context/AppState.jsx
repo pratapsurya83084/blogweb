@@ -45,6 +45,26 @@ const AppState = ({ children }) => {
     }
   };
 
+  //adminLogin
+  const Adminlogin= async (data) => {
+    try {
+      //fetch api
+      const api = await axios.post(
+        "http://localhost/blogweb/backend/admin/adminLogin.php",
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      // console.log(api.data.session_id);
+      return api.data;
+    } catch (error) {
+      console.log("something  went wrong :", error);
+    }
+  };
+
   //home all blog display
   const HomeBlogDisplay = async () => {
     try {
@@ -76,7 +96,7 @@ const AppState = ({ children }) => {
           },
         }
       );
-      // console.log(api.data);
+      console.log(api.data);
       return api.data;
     } catch (error) {
       console.log("something  went wrong :", error);
@@ -123,6 +143,7 @@ const AppState = ({ children }) => {
       value={{
         registerUser,
         loginUser,
+        Adminlogin,
         blogs,
         blogData,
         like_blog_post,

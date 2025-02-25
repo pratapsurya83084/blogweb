@@ -5,14 +5,17 @@ import { useNavigate } from "react-router-dom";
 import ContextApp from "../context/ContextApp";
 import { useContext } from "react";
 const Login = () => {
-  const { loginUser } = useContext(ContextApp);
+  const { loginUser, Adminlogin } = useContext(ContextApp);
   const navigate = useNavigate();
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
+  const [role, setrole] = useState("");
+  //  console.log(role);
 
   const data = {
     email: email,
     password: password,
+    role: role,
   };
 
   const handelSubmitForm = (e) => {
@@ -21,29 +24,67 @@ const Login = () => {
   };
 
   const submitLogin = async () => {
-    const result = await loginUser(data);
-    // console.log(result.user.username);
+    // console.log(data.role);
+//user Api call
+    if (data.role == "user") {
+      const result = await loginUser(data);
+      // console.log("user login sucessfull :", result);
 
-    if (result.success == false) {
-      Swal.fire({
-        title: "error!",
-        text: "invalid email or password",
-        icon: "error",
-        confirmButtonText: "OK",
-      });
-    } else {
-      localStorage.setItem("sessionId", JSON.stringify(result.session_id));
-      localStorage.setItem("user_id",result.id ); //logged user id set
-     localStorage.setItem("email",result.user.email);
-     localStorage.setItem("username",result.user.username);
-      Swal.fire({
-        title: "Success!",
-        text: "Login successfully",
-        icon: "success",
-        confirmButtonText: "OK",
-      });
-      navigate("/");
+      if (result.success == false) {
+        return Swal.fire({
+          title: "error!",
+          text: "invalid email or password",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      } else {
+        localStorage.setItem("sessionId", JSON.stringify(result.session_id));
+        localStorage.setItem("user_id", result.id); //logged user id set
+        localStorage.setItem("email", result.user.email);
+        localStorage.setItem("username", result.user.username);
+        navigate("/");
+        return Swal.fire({
+          title: "Success!",
+          text: "Login successfully",
+          icon: "success",
+          confirmButtonText: "OK",
+        });
+      }
     }
+// admin api call
+    if (data.role == "admin") {
+      const adminLogin = await Adminlogin(data);
+
+      // console.log("admin login sucess :", adminLogin);
+
+      if (adminLogin.success == false) {
+        return Swal.fire({
+          title: "error!",
+          text: "invalid email or password",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      } else {
+        localStorage.setItem(
+          "sessionId",
+          JSON.stringify(adminLogin.session_id)
+        );
+        localStorage.setItem("user_id", adminLogin.id); //logged user id set
+        localStorage.setItem("email", adminLogin.user.email);
+        localStorage.setItem("username", adminLogin.user.username);
+        navigate("/");
+        return Swal.fire({
+          title: "Success!",
+          text: `${data.role} Login successfully`,
+          icon: "success",
+          confirmButtonText: "OK",
+        });
+      }
+    }
+  };
+
+  const handleChange = (event) => {
+    setrole(event.target.value);
   };
 
   return (
@@ -93,6 +134,27 @@ const Login = () => {
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
             />
           </div>
+          {/* role based login */}
+          <div className="mb-4">
+            <label
+              htmlFor="role"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              Select role
+            </label>
+            <select
+              required
+              name="role"
+              id="role"
+              value={role}
+              onChange={handleChange}
+              className="border border-gray-300 rounded-md p-2 w-full"
+            >
+              <option value="">Select Role</option>
+              <option value="user">User</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
 
           {/* Submit Button */}
           <button
@@ -104,21 +166,21 @@ const Login = () => {
         </form>
 
         {/* Divider */}
-        <div className="flex items-center my-4">
+        {/* <div className="flex items-center my-4">
           <div className="border-t border-gray-300 flex-grow"></div>
           <span className="mx-3 text-gray-500 text-sm">OR</span>
           <div className="border-t border-gray-300 flex-grow"></div>
-        </div>
+        </div> */}
 
         {/* Social Login Buttons */}
-
+        {/* 
         <button className="flex justify-center w-full bg-gray-800 text-white py-2 rounded-lg hover:bg-gray-900 transition duration-300">
           <span>
             {" "}
             <img className="h-6" src="\Google-Symbol.png" alt="" />{" "}
           </span>{" "}
           Login with Google
-        </button>
+        </button> */}
 
         {/* Footer */}
         <p className="text-center text-sm text-gray-500 mt-6">
