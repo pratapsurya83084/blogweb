@@ -13,10 +13,10 @@ import Layout from "../outlet/Layout";
 import Swal from "sweetalert2";
 import axios from "axios";
 import ContextApp from "../context/ContextApp";
-import UserComment  from '../user/UserComment';
+import UserComment from "../user/UserComment";
 const SinglePageBlog = () => {
   const { like_blog_post } = useContext(ContextApp);
-// console.log(like_blog_post);
+  // console.log(like_blog_post);
 
   const [isSaved, setIsSaved] = useState(false);
 
@@ -24,19 +24,17 @@ const SinglePageBlog = () => {
 
   const { id } = useParams();
   const blogId = Number(id); // Convert to number
-  
-  const [blogdata, setblogs] = useState([]);
-  const [userLikedBlogs, setUserLikedBlogs] = useState([]);
-  const [isLiked, setIsLiked] = useState(false);
-  const [likeall,setLikesALL]=useState([])
-  const [likeCount, setLikeCount] = useState(0);
-  const [buttoncolor, setbuttoncolor] = useState();
-  // const [userLikedBlogs, setUserLikedBlogs] = useState([]);
-  const [userid, setuserid] = useState();
-  const [postid, setpostid] = useState();
 
-// console.log(likeall);
-console.log(likeCount)
+  const [blogdata, setblogs] = useState([]);
+  // const [userLikedBlogs, setUserLikedBlogs] = useState([]);
+  const [isLiked, setIsLiked] = useState(false);
+  const [likeall, setLikesALL] = useState([]);
+  const [likeCount, setLikeCount] = useState(0);
+
+  // console.log(userLikedBlogs);
+
+  // console.log(likeall);
+  // console.log(likeCount)    // 0 or 1  = red buttonlike then 1 ,or blacklike then 0
 
   // share
   const [isOpen, setIsOpen] = useState(false);
@@ -44,33 +42,13 @@ console.log(likeCount)
   // console.log(blogdata);
   const [statusId, setStatusId] = useState(null);
 
+ 
 
-// console.log(likeall);
-
-
-
-// useEffect(async()=>{
   const isLikedOnCurrentPage = likeall.filter((item) => item.post_id == blogId);
-  //  console.log(isLikedOnCurrentPage.length);
-// },[])
-   
-
-   const getuserid=localStorage.getItem("user_id")
+  // console.log(isLikedOnCurrentPage.length); //blog specific likecount currentViewBlog
 
 
-  // Social media share links
-  const shareLinks = {
-    facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-      window.location.href
-    )}`,
-    twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(
-      window.location.href
-    )}`,
-    whatsapp: `https://api.whatsapp.com/send?text=${encodeURIComponent(
-      window.location.href
-    )}`,
-  };
-    
+  const getuserid = localStorage.getItem("user_id");
 
   // Handle like toggle
   const handleLike = async (postId) => {
@@ -83,13 +61,16 @@ console.log(likeCount)
       }
 
       // Fetch the current like count from localStorage
-      let currentLikeCount = parseInt(localStorage.getItem(`${userId}_likeCount_${postId}`)) || 0;
+      let currentLikeCount =
+        parseInt(localStorage.getItem(`${userId}_likeCount_${postId}`)) || 0;
+      // console.log(currentLikeCount);
 
       // Fetch the like status for the current post
-      const currentLikeStatus = localStorage.getItem(`isLiked_${postId}_${userId}`) === "true";
-// console.log(currentLikeCount);
+      const currentLikeStatus =
+        localStorage.getItem(`isLiked_${postId}_${userId}`) === "true";
+      // console.log(currentLikeCount);
 
-      // API request to toggle like
+      // API request to toggle like =  addlike or unlike
       const response = await axios.post(
         "http://localhost/blogweb/backend/likeblogPost.php",
         {
@@ -97,90 +78,73 @@ console.log(likeCount)
           post_id: postId,
         }
       );
+      // console.log(response.data); //like add or not message return
 
       if (response.data.like_status) {
         const isLikedNow = response.data.like_status === "added";
+        // console.log(isLikedNow);   //black btn like = false  ,red btn = true
 
         // Update like count and like status if toggled
         if (isLikedNow !== currentLikeStatus) {
-          const newCount = isLikedNow ? currentLikeCount + 1 : Math.max(0, currentLikeCount - 1);
+          //false -btn black          // 2 + 1        // +1 add
+          const newCount = isLikedNow
+            ? currentLikeCount + 1
+            : currentLikeCount - 1;
+          // console.log(newCount);
 
           // Update localStorage
           localStorage.setItem(`${userId}_likeCount_${postId}`, newCount);
-          localStorage.setItem(`isLiked_${postId}_${userId}`, isLikedNow.toString());
+          localStorage.setItem(
+            `isLiked_${postId}_${userId}`,
+            isLikedNow.toString()
+          );
 
           // Update React state
           setLikeCount(newCount);
           setIsLiked(isLikedNow);
         }
       }
+
+      //fetch all likes
+      const api = await axios.get(
+        "http://localhost/blogweb/backend/all_blog_likes_post.php",
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      // console.log(api.data);
+
+      setLikesALL(api.data.Likes);
     } catch (error) {
       alert("An error occurred while processing your like. Please try again.");
       console.error(error);
     }
   };
 
-
-
   // Load initial like count and status from localStorage
   useEffect(() => {
     const userId = localStorage.getItem("user_id");
     if (userId) {
-      const savedLikeCount = parseInt(localStorage.getItem(`${userId}_likeCount_${blogId}`)) || 0;
-      const savedIsLiked = localStorage.getItem(`isLiked_${blogId}_${userId}`) === "true";
+      const savedLikeCount =
+        parseInt(localStorage.getItem(`${userId}_likeCount_${blogId}`)) || 0;
+      const savedIsLiked =
+        localStorage.getItem(`isLiked_${blogId}_${userId}`) === "true";
 
       setLikeCount(savedLikeCount);
       setIsLiked(savedIsLiked);
     }
   }, [blogId]);
 
-
-  useEffect(() => {
-    const fetchLikeCount = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost/blogweb/backend/getBlogLikes.php?post_id=${blogId}`
-        );
-        setLikeCount(response.data.like_count || 0); // Initialize count
-      } catch (error) {
-        console.error("Error fetching like count:", error);
-      }
-    };
-  
-    if (blogId) fetchLikeCount();
-  }, [blogId]);
-  
-
-
   // Load initial like status from localStorage
+
   useEffect(() => {
     const savedStatus = localStorage.getItem(`isLiked_${blogId}_${getuserid}`);
     setIsLiked(savedStatus === "true");
   }, [blogId, getuserid]);
 
-  // Fetch initial liked blogs and update the state
-  useEffect(() => {
-    const fetchInitialLikeStatus = async () => {
-      try {
-        if (!getuserid) return;
-
-        const response = await axios.get(
-          `http://localhost/blogweb/backend/getUserLikedPosts.php?user_id=${getuserid}`
-        );
-
-        if (response.data?.likedPosts) {
-          const likedPostIds = response.data.likedPosts.map((post) => post.post_id);
-          setUserLikedBlogs(likedPostIds);
-          setIsLiked(likedPostIds.includes(blogId));
-        }
-      } catch (error) {
-        console.error("Error fetching user liked blogs:", error);
-      }
-    };
-
-    fetchInitialLikeStatus();
-  }, [blogId, getuserid]);
-
+  //fetch  all like post
   const All_like_blog_post = async () => {
     try {
       //fetch api
@@ -192,7 +156,7 @@ console.log(likeCount)
           },
         }
       );
-      console.log(api.data);
+      // console.log(api.data);
 
       setLikesALL(api.data.Likes);
     } catch (error) {
@@ -202,7 +166,7 @@ console.log(likeCount)
 
   useEffect(() => {
     All_like_blog_post();
-  }, []);                    // Dependency array to avoid unnecessary re-renders
+  }, []); // Dependency array to avoid unnecessary re-renders
 
   // Fetch all blogs
   useEffect(() => {
@@ -246,13 +210,8 @@ console.log(likeCount)
       console.log("No blog found with the given ID.");
     }
   }, [blogs, blogId]);
-  
 
-
-
-
-
-//immidiatley update saved status of icon
+  //immidiatley update saved status of icon
 
   useEffect(() => {
     const savedStatus = localStorage.getItem(`${getuserid}_saved_${blogId}`);
@@ -306,8 +265,6 @@ console.log(likeCount)
     }
   };
 
-
- 
   //  console.log(blogId,user_id);
 
   // Handle unsave action
@@ -356,15 +313,24 @@ console.log(likeCount)
       window.location.href = "/login";
     }
   };
-  
 
+  // Social media share links
+  const shareLinks = {
+    facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+      window.location.href
+    )}`,
+    twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(
+      window.location.href
+    )}`,
+    whatsapp: `https://api.whatsapp.com/send?text=${encodeURIComponent(
+      window.location.href
+    )}`,
+  };
 
   // share link via whatsapp ,
   const shareblogLink = () => {
     setIsOpen(!isOpen);
   };
-
-
 
   //all savedpost
 
@@ -452,18 +418,16 @@ console.log(likeCount)
                     <div className="flex justify-start items-center gap-6 mt-6">
                       {/* like button */}
                       <button
-        onClick={() => handleLike(blogId)}
-        className={`px-4  py-2 rounded ${
-          isLiked ? " text-red-500" : " text-black"
-        }`}
-      > <FaThumbsUp/>
-      {  (isLikedOnCurrentPage.length+likeCount)
-      // isLikedOnCurrentPage.length+1
-       } 
-      {/* {likeCount} */}
-       {/* {( likeCount? isLikedOnCurrentPage.length :isLikedOnCurrentPage.length  ) }  */}
-     
-      </button>
+                        onClick={() => handleLike(blogId)}
+                        className={`px-4  py-2 rounded ${
+                          isLiked ? " text-red-500" : " text-black"
+                        }`}
+                      >
+                        {" "}
+                        <FaThumbsUp />
+                        {isLikedOnCurrentPage.length}
+                        
+                      </button>
 
                       <button
                         className="flex items-center text-gray-700 hover:text-green-500"
@@ -472,9 +436,9 @@ console.log(likeCount)
                         <FaShareAlt className="mr-2" />
                       </button>
 
-                      {isSaved  ? (
+                      {isSaved ? (
                         <button
-                          onClick={()=>handleUnsave(blogId)}
+                          onClick={() => handleUnsave(blogId)}
                           className="flex flex-col"
                         >
                           <FaBookmark className="ml-4" /> Unsave
@@ -530,15 +494,10 @@ console.log(likeCount)
                 );
               })}
 
-              
-
-     <div>
-     <UserComment/>
-     </div>
+            <div>
+              <UserComment />
+            </div>
           </div>
-
-
-
 
           {/* Related Blogs */}
           <div className="hidden lg:flex flex-col w-full lg:w-auto   mt-8 lg:mt-0 bg-white shadow-lg rounded-lg p-6">

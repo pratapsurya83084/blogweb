@@ -1,0 +1,4 @@
+1. likes  =  we need to call 2 api  insert like and getall like in same function handlelike.
+   because when click the like button call getalllike and update length of All array blogpost.
+
+2. also outside the function call getAllblogLikes api because , if user not like blog but show other people likeCount
