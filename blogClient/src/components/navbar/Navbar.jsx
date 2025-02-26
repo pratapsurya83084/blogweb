@@ -40,9 +40,9 @@ const Navbar = () => {
             <Link to="/blog" className="hover:text-purple-400">
               Blog
             </Link>
-            <Link to="/contact" className="hover:text-purple-400">
+            {/* <Link to="/contact" className="hover:text-purple-400">
               Contact
-            </Link>
+            </Link> */}
 
             {
               localStorage.getItem("email")=="admin@gmail.com"? 
@@ -111,9 +111,9 @@ const Navbar = () => {
               <Link to="/blog" className="block hover:text-purple-400">
                 Blog
               </Link>
-              <Link to="/contact" className="block hover:text-purple-400">
+              {/* <Link to="/contact" className="block hover:text-purple-400">
                 Contact
-              </Link>
+              </Link> */}
               {
               localStorage.getItem("email")=="admin@gmail.com"? 
               <Link to="/admin" className="block hover:text-purple-400">

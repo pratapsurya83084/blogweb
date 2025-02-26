@@ -12,20 +12,21 @@ import { useParams, Link } from "react-router-dom";
 import Layout from "../outlet/Layout";
 import Swal from "sweetalert2";
 import axios from "axios";
-import ContextApp from "../context/ContextApp";
+
 import UserComment from "../user/UserComment";
 const SinglePageBlog = () => {
-  const { like_blog_post } = useContext(ContextApp);
-  // console.log(like_blog_post);
+
 
   const [isSaved, setIsSaved] = useState(false);
-
+//all blogs fetch
   const [blogs, setFilteredBlogs] = useState([]);
 
   const { id } = useParams();
   const blogId = Number(id); // Convert to number
 
   const [blogdata, setblogs] = useState([]);
+  // console.log("current view blog singlepage :",blogdata);
+  
   // const [userLikedBlogs, setUserLikedBlogs] = useState([]);
   const [isLiked, setIsLiked] = useState(false);
   const [likeall, setLikesALL] = useState([]);
@@ -41,7 +42,8 @@ const SinglePageBlog = () => {
   const [allsavedpostid, setSavedblodids] = useState([]);
   // console.log(blogdata);
   const [statusId, setStatusId] = useState(null);
-
+const [relatedBlogs ,setRelatedblogs]=useState([])
+//  console.log("related categorywise blogs:",relatedBlogs);
  
 
   const isLikedOnCurrentPage = likeall.filter((item) => item.post_id == blogId);
@@ -175,6 +177,8 @@ const SinglePageBlog = () => {
         const response = await axios.get(
           "http://localhost/blogweb/backend/allblogs.php"
         );
+        // console.log(response.data);
+        
         setFilteredBlogs(response.data.blogs);
       } catch (error) {
         console.error("Error fetching blogs", error);
@@ -189,6 +193,8 @@ const SinglePageBlog = () => {
 
     // Filter blogs by ID
     const idwise_blogpost = blogs.filter((blog) => blog.id == blogId);
+    // console.log("idwise blog :",idwise_blogpost);
+    
     setblogs(idwise_blogpost);
 
     // Check if a blog post is found
@@ -202,7 +208,7 @@ const SinglePageBlog = () => {
       // console.log("Related Blogs:", relatedBlogs);
 
       if (relatedBlogs.length > 0) {
-        setblogs(relatedBlogs);
+        setRelatedblogs(relatedBlogs);
       } else {
         console.log("No related blogs found in the same category.");
       }
@@ -503,7 +509,7 @@ const SinglePageBlog = () => {
           <div className="hidden lg:flex flex-col w-full lg:w-auto   mt-8 lg:mt-0 bg-white shadow-lg rounded-lg p-6">
             <h2 className="text-2xl font-semibold mb-4">Related Blogs</h2>
             <div className="space-y-4">
-              {blogdata.map((blog, i) => {
+              {relatedBlogs.map((blog, i) => {
                 return (
                   <div
                     key={blog.id}

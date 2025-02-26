@@ -14,12 +14,14 @@ const AddBlogs = () => {
     blog_img: null,
   });
 
+
   const [wordLimitExceeded, setWordLimitExceeded] = useState(false);
   const [titleWordLimitExceeded, setTitleWordLimitExceeded] = useState(false);
   const [subtitleWordLimitExceeded, setSubtitleWordLimitExceeded] = useState(false);
 
   // Handle change of input fields
   const handleChange = (e) => {
+    
     const { name, value, files } = e.target;
 
     // Count the number of words for validation
@@ -27,23 +29,25 @@ const AddBlogs = () => {
 
     if (name === "blog_title") {
       // Validate title length (3-4 words)
-      if (wordCount > 5) {
+      if (wordCount > 6) {
         setTitleWordLimitExceeded(true);
       } else {
         setTitleWordLimitExceeded(false);
       }
     } else if (name === "blog_subtitle") {
       // Validate subtitle length (1 line)
-      if (wordCount > 20) { // Assume 20 words for a subtitle limit
+      if (wordCount > 15) { // Assume 20 words for a subtitle limit
         setSubtitleWordLimitExceeded(true);
       } else {
         setSubtitleWordLimitExceeded(false);
       }
     } else if (name === "blog_content") {
       // Validate content length (1500-2000 words)
-      if ( wordCount < 1500) {
-        setWordLimitExceeded(true);
-        alert("Please enter 1500 word or less than 2000 words ");
+      if ( wordCount > 1500 ) {
+        
+        setWordLimitExceeded(true)
+          alert("Please enter 1500 word or less than 2000 words");
+   
       } else {
         setWordLimitExceeded(false);
       }
@@ -64,7 +68,7 @@ const AddBlogs = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    console.log("formdata : ",formData);
     if (titleWordLimitExceeded || subtitleWordLimitExceeded || wordLimitExceeded) {
       Swal.fire({
         title: "Error!",
@@ -158,15 +162,26 @@ const AddBlogs = () => {
           >
             Blog Category (1 word)
           </label>
-          <input
-            type="text"
-            id="blog_category"
-            name="blog_category"
-            value={formData.blog_category}
-            onChange={handleChange}
-            className="mt-2 p-3 w-full border border-gray-300 rounded-md"
-            required
-          />
+        
+          <select
+  id="blog_category"
+  name="blog_category"
+  className="w-full border border-black"
+  value={formData.blog_category}
+  onChange={handleChange}
+>
+  <option value="popular">popular</option>
+  <option value="lifestyle">Lifestyle</option>
+  <option value="shopping">shopping</option>
+  <option value="technology">technology</option>
+  <option value="sports">sports</option>
+  <option value="health">Health</option>
+  <option value="travel">Travel</option>
+  <option value="food">Food</option>
+
+</select>
+
+
         </div>
 
         {/* Blog Content */}

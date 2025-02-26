@@ -29,7 +29,12 @@ const BlogHome = () => {
   const togglemodeDropdown = () => {
     setClick(!click);
   };
+  const [visibleBlogs, setVisibleBlogs] = useState(8); // Initially show 8 blogs
 
+  // Function to load more blogs
+  const loadMore = () => {
+    setVisibleBlogs((prev) => prev + 8); // Show 8 more blogs on each click
+  };
   //only popular  categories
   const popularBlogs =
     blogs &&
@@ -39,20 +44,17 @@ const BlogHome = () => {
 
   return (
     <div className="flex justify-center mt-20  mb-20">
-      <div className="flex md:space-x-4">
+      <div className="flex space-x-">
         {/* Left Column */}
-        {/* <div className=" hidden md:block w-[150px] h-[330px] bg-white rounded">
-          <ul className="">
-            <li className="p-2 ">About Us</li>{" "}
-            <li className="p-2 ">Advertise with us</li>
-            <li className="p-2 ">Safety Tips</li>
-            <li className="p-2 ">FAQs</li>
-            <li className="p-2 ">Blogs</li>
-            <li className="p-2 ">Terms & Condition</li>
-            <li className="p-2 ">Privacy Privacy</li>
-            <li className="p-2 ">Contact Us</li>
-          </ul>
-        </div> */}
+        {/* if length > 0 then show this section else  "hidden or none " */}
+        <div className=" hidden md:flex p-5 w-fit h-fit bg-white rounded">
+          <div className="">
+            <h1 className="text-lg font-bold">Saved Post</h1>
+            images.. <br />
+            <h3>title</h3>
+            <p>subtittle jjhhdjj dfdfdfr</p>
+          </div>
+        </div>
 
         {/* Middle Column */}
         <div className="bg-white rounded  mx-2 md:w-[560px] lg:w-[600px] xl:w-[890px]  ">
@@ -155,79 +157,82 @@ const BlogHome = () => {
           </div>
 
           {/* show blog cards */}
-          <div className="grid grid-cols- gap-6">
-            {filteredBlogs &&
-              filteredBlogs.map((blog) => (
-                <div
-                  key={blog.id}
-                  className="flex md:flex-row blogs-center bg-white  rounded-lg overflow-hidden"
-                >
-                  {/* Left Content */}
-
-                  <div className="p-6 md:w-2/3">
-                    <h3 className="text-indigo-600 font-bold">
-                      {blog.blog_category}
-                    </h3>
-                    <h5 className="text-xs md:text-sm font-bold ">
-                      {blog.blog_title}
-                    </h5>
-
-                    <Link to={`/singlepage/${blog.id}`}>
-                      {/* <p className="text-xs md:text-sm text-gray-700 mt-4 ">
-                    {blog.desc}
-                  </p> */}
-                      <div className=" blogs-center gap-4 mt-4 text-sm text-gray-500">
-                        <span className="text-xs md:text-sm">
-                          {blog.blog_author}
-                        </span>{" "}
-                        <br />
-                        <span className="text-xs md:text-sm">
-                          {blog.blog_post_date}
-                        </span>
-                      </div>
-                    </Link>
-                  </div>
-
-                  {/* Right Image */}
-
-                  <div className=" md:w-1/3 flex justify-end ">
-                    <Link to={`/singlepage/${blog.id}`}>
-                      <img
-                        src={blog.blog_img}
-                        alt={blog.blog_title}
-                        className="w-[500px] h-[130px] sm:w-[500px] sm:h-[200px] object-cover p-2"
-                      />
-                    </Link>
-                  </div>
+          <div className="grid grid-cols-1 gap-6">
+            {/* 0 to limit state  */}
+            {filteredBlogs.slice(0, visibleBlogs).map((blog) => (
+              <div
+                key={blog.id}
+                className="flex md:flex-row items-center bg-white rounded-lg overflow-hidden"
+              >
+                {/* Left Content */}
+                <div className="p-6 md:w-2/3">
+                  <h3 className="text-indigo-600 font-bold">
+                    {blog.blog_category}
+                  </h3>
+                  <h5 className="text-xs md:text-sm font-bold">
+                    {blog.blog_title}
+                  </h5>
+                  <h6 className="hidden md:flex">{blog.blog_subtitle}</h6>
+                  <Link to={`/singlepage/${blog.id}`}>
+                    <div className="flex items-center gap-4 mt-4 text-sm text-gray-500">
+                      <span className="text-xs md:text-sm">
+                        {blog.blog_author}
+                      </span>
+                      <span className="text-xs md:text-sm">
+                        {blog.blog_post_date}
+                      </span>
+                    </div>
+                  </Link>
                 </div>
-              ))}
+
+                {/* Right Image */}
+                <div className="md:w-1/3 flex justify-end">
+                  <Link to={`/singlepage/${blog.id}`}>
+                    <img
+                      src={blog.blog_img}
+                      alt={blog.blog_title}
+                      className="w-[500px] h-[130px] sm:w-[500px] sm:h-[200px] object-cover p-2"
+                    />
+                  </Link>
+                </div>
+              </div>
+            ))}
           </div>
+
+          {/* See More Button */}
+          {visibleBlogs < filteredBlogs.length && (
+            <div className="flex justify-center mt-6">
+              <button
+                onClick={loadMore}
+                className="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
+              >
+                See More
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Right Column */}
-        <div className=" bg-white rounded  w-[280px] h-[300px]    hidden lg:block  ">
-          {popularBlogs &&
-            popularBlogs.map((blogs) => {
-              return (
-                <div key={blogs.id}>
-                  <h2 className="p-2">Popular Posts</h2>
-                  <ul className=" p-2">
-                    <Link to={`/singlepage/${blogs.id}`}>
-                      <img src={blogs.blog_img} alt="" />
-                      <p className="text-indigo-600 p-2 font-bold">
-                        {blogs.blog_category}
-                      </p>
-                    </Link>
-                    <li className="p-2">
-                      {blogs.blog_title}
-                      {/* <br /> */}
-
-                      <p className="text-xs">23 Likes</p>
-                    </li>
-                  </ul>
-                </div>
-              );
-            })}
+        <div className="bg-white rounded w-fit h-fit hidden lg:block p-2 shadow-md">
+          <h2 className="p-2 text-lg font-semibold">Popular Posts</h2>
+          <ul>
+            {popularBlogs.map((blog) => (
+              <li key={blog.id} className="p-2 border-b">
+                <Link to={`/singlepage/${blog.id}`} className="block">
+                  <img
+                    src={blog.blog_img}
+                    alt={blog.blog_title}
+                    className="w-full h-32 object-cover rounded"
+                  />
+                  <p className="text-indigo-600 p-1 font-bold">
+                    {blog.blog_category}
+                  </p>
+                </Link>
+                <p className="p-1">{blog.blog_title}</p>
+                <p className="text-xs text-gray-500">23 Likes</p>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </div>

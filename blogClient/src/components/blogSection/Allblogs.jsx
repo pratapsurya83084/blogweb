@@ -8,12 +8,12 @@ import ContextApp from "../context/ContextApp";
 const Allblogs = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const { blogData } = useContext(ContextApp);
-  console.log(searchTerm);
+  // console.log(searchTerm);
 
   // console.log(blogData);
 
   const Blogs = blogData;
-  console.log(Blogs);
+  // console.log(Blogs);
 
   // Filter blogs based on the search term
   const filteredBlogs =
