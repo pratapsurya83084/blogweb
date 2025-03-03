@@ -166,20 +166,24 @@ const AddBlogs = () => {
           <select
   id="blog_category"
   name="blog_category"
+  required
   className="w-full border border-black"
   value={formData.blog_category}
   onChange={handleChange}
 >
-  <option value="popular">popular</option>
+  <option value="" disabled selected>
+    Select a category
+  </option>
+  <option value="popular">Popular</option>
   <option value="lifestyle">Lifestyle</option>
-  <option value="shopping">shopping</option>
-  <option value="technology">technology</option>
-  <option value="sports">sports</option>
+  <option value="shopping">Shopping</option>
+  <option value="technology">Technology</option>
+  <option value="sports">Sports</option>
   <option value="health">Health</option>
   <option value="travel">Travel</option>
   <option value="food">Food</option>
-
 </select>
+
 
 
         </div>

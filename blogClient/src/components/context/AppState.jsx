@@ -5,8 +5,8 @@ import axios from "axios";
 const AppState = ({ children }) => {
   const [blogs, setblogs] = useState();
   const [blogData, setFilteredBlogs] = useState([]);
-  const [allUser, setUsersAll] = useState();
-
+  const [LikedPost, setLikesPost] = useState([]);
+   const [AllComments,setComments] = useState();
   
   //register user
   const registerUser = async ({ userData }) => {
@@ -103,25 +103,7 @@ const AppState = ({ children }) => {
     }
   };
 
-  //get all user
-  // const allUsers = async () => {
-  //   try {
-  //     //fetch api
-  //     const api = await axios.get(
-  //       "http://localhost/blogweb/backend/allUser.php",
 
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
-  //     );
-  //     // console.log(api.data);
-  //     // setUsersAll(api.data.users);
-  //   } catch (error) {
-  //     console.log("something  went wrong :", error);
-  //   }
-  // };
 
   //delete User by idwise
   const DeleteUser = async (id) => {
@@ -137,6 +119,49 @@ const AppState = ({ children }) => {
   };
   
 
+//getAll   blogsaved - Post
+  const getAllBlog_post = async () => {
+    try {
+      //fetch api
+      const api = await axios.get(
+        "http://localhost/blogweb/backend/getAllsavedPost.php",
+
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      // console.log(api.data);
+      setLikesPost(api.data);
+   
+    } catch (error) {
+      console.log("something  went wrong :", error);
+    }
+  };
+
+
+//get all comment of blog_post
+const getAllComment=async()=>{
+  try {
+    const api = await axios.get("http://localhost/blogweb/backend/getAllComment.php")
+
+    // console.log(api.data.comments);
+    setComments(api.data.comments);
+  } catch (error) {
+    console.log("something went wrong please try again : ",error); 
+  }
+}
+
+// console.log(AllComments);
+
+
+useEffect(()=>{
+  getAllBlog_post();
+  getAllComment();
+},[]);
+
+
 
   return (
     <ContextApp.Provider
@@ -147,8 +172,9 @@ const AppState = ({ children }) => {
         blogs,
         blogData,
         like_blog_post,
-        // allUsers,
-        DeleteUser
+        LikedPost,
+        DeleteUser,
+        AllComments
       }}
     >
       {children}

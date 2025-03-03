@@ -27,7 +27,7 @@ const Allblogs = () => {
   const popularBlog = Blogs.filter(
     (blog) => blog.blog_category.toLowerCase() === "popular"
   );
-  // console.log(popularBlog);
+  console.log(popularBlog);
 
   return (
     <Layout>
@@ -98,7 +98,7 @@ const Allblogs = () => {
                 <Link to={`/singlepage/${pop.id}`}>
                   {" "}
                   <img
-                    className="h-[80px] w-[90px] rounded-xl object-cover"
+                    className=" w-44 rounded-xl object-cover"
                     src={pop.blog_img}
                     alt="Related Blog"
                   />
@@ -109,10 +109,10 @@ const Allblogs = () => {
                     {pop.category}
                   </h3>
                   <p className="font-medium text-gray-800 text-sm mb-1">
-                    {pop.title}
+                    {pop.blog_title}
                   </p>
-                  <p className="text-gray-600 text-xs">{pop.author}</p>
-                  <p className="text-gray-400 text-xs">{pop.date}</p>
+                  <p className="text-gray-600 text-xs">{pop.blog_author}</p>
+                  <p className="text-gray-400 text-xs">{pop.blog_post_date}</p>
                 </div>
               </div>
             ))}
