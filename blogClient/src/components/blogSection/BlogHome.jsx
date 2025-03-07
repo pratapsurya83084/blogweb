@@ -208,10 +208,10 @@ const BlogHome = () => {
           {filteredBlogs.slice(0, visibleBlogs).map((blog) => (
             <div
               key={blog.id}
-              className="flex md:flex-row items-center bg-white rounded-lg overflow-hidden"
+              className="flex md:flex-row items-center hover:bg-slate-100 bg-white rounded-lg overflow-hidden"
             >
               {/* Left Content */}
-              <div className="p-6 md:w-2/3">
+              <div className="p-2 md:w-2/3">
                 <h3 className="text-indigo-600 font-bold">
                   {blog.blog_category}
                 </h3>

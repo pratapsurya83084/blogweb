@@ -12,8 +12,11 @@ import { useParams, Link } from "react-router-dom";
 import Layout from "../outlet/Layout";
 import Swal from "sweetalert2";
 import axios from "axios";
-
 import UserComment from "../user/UserComment";
+
+
+
+
 const SinglePageBlog = () => {
 
 
@@ -390,20 +393,21 @@ const [relatedBlogs ,setRelatedblogs]=useState([])
                 alt="poster image"
                 className="w-full h-auto max-h-[700px] object-cover"
               />
-              <div className="absolute inset-0 text-white flex flex-col p-2 text-center justify-center items-center">
+              {/* <div className="absolute inset-0 text-white flex flex-col p-2 text-center justify-center items-center">
                 <h1 className="text-2xl sm:text-5xl md:text-5xl font-bold mb-2">
                   {blog.blog_title}
                 </h1>
-              </div>
+              </div> */}
             </div>
           );
         })}
 
         <div className="mb-10 w-full flex flex-col lg:flex-row justify-center items-start px-4 mt-10">
-          <div className="lg:max-w-3xl  mb-10 bg-white shadow-lg rounded-lg p-6 text-left lg:w-2/3 lg:mr-8">
+          <div className=" lg:max-w-3xl  mb-10 bg-white shadow-lg rounded-lg p-6 text-left lg:w-2/3 lg:mr-8">
             {blogdata &&
               blogdata.map((blog, i) => {
                 return (
+                  
                   <div key={i}>
                     <img
                       src={blog.blog_img}
@@ -418,7 +422,7 @@ const [relatedBlogs ,setRelatedblogs]=useState([])
                       on {blog.blog_post_date}
                     </p>
                     <p className="text-gray-700 text-sm md:text-lg leading-relaxed">
-                      {blog.blog_content}
+                      {blog.blog_content }
                     </p>
 
                     {/* like dislike share button */}

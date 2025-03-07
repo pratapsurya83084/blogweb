@@ -24,6 +24,7 @@
     "react-router-dom": "^7.0.2",
     "react-tabs": "^6.0.2",
     "react-textarea-autosize": "^8.5.6",
+    "recharts": "^2.15.1",
     "sweetalert2": "^11.15.3"
   },
   "devDependencies": {
