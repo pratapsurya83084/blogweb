@@ -1,6 +1,6 @@
 import React, { useState,useEffect } from "react";
 import { Link } from "react-router-dom";
-
+import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
 const Footer = () => {
   const [year,setYear]=useState()
 
@@ -10,7 +10,6 @@ const Footer = () => {
     // console.log(a.getFullYear());
   }, [])
  
-  
   
   return (
     <div className="bg-black text-white py-8">
@@ -38,11 +37,7 @@ const Footer = () => {
                   Blog
                 </Link>
               </li>
-              <li>
-                <Link to="/contact" className="text-gray-400 hover:text-purple-500">
-                  Contact
-                </Link>
-              </li>
+          
               {/* <li>
                 <Link to="/privacy-policy" className="text-gray-400 hover:text-purple-500">
                   Privacy Policy
@@ -56,55 +51,42 @@ const Footer = () => {
             <h3 className="text-xl font-semibold mb-4">Contact Us</h3>
             <ul className="space-y-2">
               <li className="text-gray-400">
-                <strong>Email:</strong> info@everydayaura.com
+                <strong>Email : </strong> pratapsuryawanshi007@gmail.com
               </li>
               <li className="text-gray-400">
-                <strong>Phone:</strong> +123 456 7890
+                <strong>Phone :</strong> +91  8308459145
               </li>
               <li className="text-gray-400">
-                <strong>Address:</strong> 123 Aura Street, City, Country
+                <strong>Address :</strong> karjat , City, india
               </li>
             </ul>
           </div>
 
           {/* Social Media Section */}
-          <div>
-            <h3 className="text-xl font-semibold mb-4">Follow Us</h3>
-            <div className="flex space-x-4">
-              <a
-                href="https://facebook.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-purple-500"
-              >
-                <i className="fab fa-facebook-square text-2xl"></i>
-              </a>
-              <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-purple-500"
-              >
-                <i className="fab fa-twitter text-2xl"></i>
-              </a>
-              <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-purple-500"
-              >
-                <i className="fab fa-instagram text-2xl"></i>
-              </a>
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-purple-500"
-              >
-                <i className="fab fa-linkedin text-2xl"></i>
-              </a>
-            </div>
-          </div>
+          
+     <div>
+     <h3 className="text-xl font-semibold mb-4">Social Media</h3>
+     <div className="flex space-x-4">
+      
+      <a
+        href="https://x.com/PratapSury19843"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-gray-400 hover:text-indigo-500 transition-transform transform hover:scale-110"
+      >
+        <FaTwitter size={28} />
+      </a>
+    
+      <a
+        href="https://www.linkedin.com/in/pratap-suryawanshi-41944b25a/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-gray-400 hover:text-indigo-500 transition-transform transform hover:scale-110"
+      >
+        <FaLinkedin size={28} />
+      </a>
+    </div>
+     </div>
         </div>
 
         {/* Footer Bottom */}
