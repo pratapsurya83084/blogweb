@@ -92,7 +92,8 @@ const Footer = () => {
         {/* Footer Bottom */}
         <div className="mt-8 border-t border-gray-700 pt-4 text-center">
           <p className="text-gray-400 text-sm">
-            Developed by Pratap Suryawanshi & Nimbalkar dhananjay
+            Developed by Pratap Suryawanshi  And Nimbalkar Dhananjay.
+            {/* & Nimbalkar dhananjay */}
             &copy;{year} Everyday Aura. All rights reserved.
           </p>
         </div>

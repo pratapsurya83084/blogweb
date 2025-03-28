@@ -76,7 +76,7 @@ const BlogHome = () => {
       {/* if length > 0 then show this section else  "hidden or none " */}
 
       {displayUserLikedSpecificBlogPost.length > 0 ? (
-        <div className="bg-white rounded w-fit h-fit hidden lg:block p-2 shadow-md">
+        <div className="bg-white rounded w-72 h-fit hidden lg:block p-2 shadow-md">
           <h2 className="p-2 text-xl font-bold">Saved Posts</h2>
 
           <ul>
@@ -86,7 +86,7 @@ const BlogHome = () => {
                   <img
                     src={blog.blog_img}
                     alt={blog.blog_title}
-                    className="w-full h-32 object-cover rounded"
+                    className="w-fit h- object rounded"
                   />
                   <p className="text-indigo-600 p-1 font-bold">
                     {blog.blog_category}
@@ -269,7 +269,7 @@ const BlogHome = () => {
                 <img
                   src={blog.blog_img}
                   alt={blog.blog_title}
-                  className="w-full h-32 object-cover rounded"
+                  className="w-full h-32 object rounded"
                 />
                 <p className="text-indigo-600 p-1 font-bold">
                   {blog.blog_category}

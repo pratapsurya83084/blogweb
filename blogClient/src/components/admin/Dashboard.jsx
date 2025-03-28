@@ -133,7 +133,7 @@ useEffect(()=>{
             <h1 className="text-3xl font-bold mb-4 mt-10 md:mt-0">Dashboard</h1>
            
            
-            <div className="w-auto grid grid-cols-1 md:grid-cols- gap-4">
+            <div className="w-auto grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className=" bg-white p-4 shadow rounded-lg">
                 <h2 className="text-xl font-semibold">Total Users (registered user)</h2>
                 <p className="text-2xl mt-2">{Users? Users.length :"0" }</p>

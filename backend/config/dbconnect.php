@@ -8,9 +8,9 @@ $servername = "localhost"; // Your database host, usually localhost
 $username = "root"; // Your database username
 $password = ""; // Default for XAMPP
 $dbname = "blog-webapp"; // Your database name
-
+$port = 3307; 
 // Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli($servername, $username, $password, $dbname,$port);
 
 // Check connection
 if ($conn->connect_error) {

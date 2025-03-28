@@ -1,5 +1,12 @@
+//deploy creadential in infinity
 password = OSJVtzv1v8u933D
 username = if0_38466389
 hostname = sql202.infinityfree.com
-port = 3306
+port =3306
 dbname = if0_38466389_blogwebapp
+
+
+
+
+//endpoint url
+http://http://pratap.free.nf/backend/allblogs.php

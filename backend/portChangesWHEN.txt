@@ -1,0 +1,3 @@
+1.change port in my.in file
+2.change statement change = in  xampp->phmyAdmin->config.inc file
+3.also php dbconnection file change port = newPort

@@ -7,7 +7,7 @@ const AppState = ({ children }) => {
   const [blogData, setFilteredBlogs] = useState([]);
   const [LikedPost, setLikesPost] = useState([]);
    const [AllComments,setComments] = useState();
-  
+  const url="/backend"
   //register user
   const registerUser = async ({ userData }) => {
     const response = await axios.post(
@@ -17,7 +17,7 @@ const AppState = ({ children }) => {
       {
         headers: {
           "Content-Type": "application/json",
-          // "Accept": "application/json",
+          
         },
       }
     );
@@ -50,7 +50,7 @@ const AppState = ({ children }) => {
     try {
       //fetch api
       const api = await axios.post(
-        "http://localhost/blogweb/backend/admin/adminLogin.php",
+       "http://localhost/blogweb/backend/admin/adminLogin.php",
         data,
         {
           headers: {
@@ -64,12 +64,13 @@ const AppState = ({ children }) => {
       console.log("something  went wrong :", error);
     }
   };
+  
 
   //home all blog display
   const HomeBlogDisplay = async () => {
     try {
       const response = await axios.get(
-        "  http://localhost/blogweb/backend/allblogs.php"
+        "http://localhost/blogweb/backend/allblogs.php"
       );
       // console.log(response.data)
       setblogs(response.data.blogs);
